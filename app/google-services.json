@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "209404563605",
+    "firebase_url": "https://todo-made-easy.firebaseio.com",
+    "project_id": "todo-made-easy",
+    "storage_bucket": "todo-made-easy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209404563605:android:2c8073efba6f1049164b9c",
+        "android_client_info": {
+          "package_name": "com.example.todomadeeasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209404563605-p68var0cam9ekf7l9f9ajso7ck60l293.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.todomadeeasy",
+            "certificate_hash": "f4e0d5914e77f18dd5c0a146b9ce8b8550826389"
+          }
+        },
+        {
+          "client_id": "209404563605-ngg98ebsh1uaqnqkm2pf87t88kfpmdnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKWL8qS8GZPFQH6CEhJiyQMSxla2K0YHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "209404563605-ngg98ebsh1uaqnqkm2pf87t88kfpmdnl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

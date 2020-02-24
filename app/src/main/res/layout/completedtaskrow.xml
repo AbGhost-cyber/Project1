@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="@color/white">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Playing football"
+            android:layout_marginTop="10dp"
+            android:id="@+id/completedTasKTitle"
+            android:textColor="@color/green"
+            android:textSize="19sp"
+            android:fontFamily="@font/amaranth_bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_alignParentEnd="true"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/yellow"
+            android:text="12:23pm"
+            android:id="@+id/completedTasKTime"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+</LinearLayout>

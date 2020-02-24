@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Task Manager Pro</string>
+    <string name="Home">Home</string>
+    <string name="ComTask">Com-Task</string>
+    <string name="Profile">Profile</string>
+    <string name="Task">Update Task</string>
+    <string name="CancelUpdate">Cancel Update</string>
+    <string name="search">Search</string>
+    <string name="task_end">end of tasks</string>
+    <string name="my_task">My Task</string>
+    <string name="open_clock">Open Clock</string>
+    <string name="time_display">your time will display here</string>
+    <string name="logout_app">Logout</string>
+    <string name="welcome_to_task_manager_pro">Welcome To Task Manager Pro</string>
+    <string name="hhhk">image</string>
+    <string name="manage_your_time_like_a_pro">Manage your time like never before</string>
+    <string name="edit">Edit Your Task</string>
+    <string name="timer">Timer</string>
+    <string name="cancel_timer">Cancel</string>
+    <string name="start_timer">Start</string>
+</resources>
