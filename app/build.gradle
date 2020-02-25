@@ -83,7 +83,7 @@ dependencies {
     // swipe decoration
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
 
-    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
     //circular image
 
     //glide
