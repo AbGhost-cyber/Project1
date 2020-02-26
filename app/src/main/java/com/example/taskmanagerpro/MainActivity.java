@@ -10,15 +10,25 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import hotchemi.android.rate.AppRate;
+
 public class MainActivity extends AppCompatActivity {
-private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bottomNav=findViewById(R.id.bottomNav);
+        BottomNavigationView bottomNav = findViewById (R.id.bottomNav);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //show rate app prompt
+        AppRate.with (this)
+                .setInstallDays (1)
+                .setLaunchTimes (3)
+                .setRemindInterval (2)
+                .monitor ();
+
+        AppRate.showRateDialogIfMeetsConditions (this);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,

@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         builder.setPositiveButton ("Recover", (dialog, which) -> {
             String email=editTextEmail.getText ().toString ().trim ();
             if(TextUtils.isEmpty (email)){
-                editTextEmail.setError ("email is empty");
+                StyleableToast.makeText (getApplicationContext (),"please input your email",R.style.myToast1);
                 return;
             }
             beginPasswordRecovery(email);

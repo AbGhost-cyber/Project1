@@ -98,4 +98,7 @@ dependencies {
     //styleable Toasts
     implementation 'com.muddzdev:styleabletoast:2.0.1'
 
+    //rate app prompt
+    implementation 'com.github.hotchemi:android-rate:1.0.1'
+
 }
