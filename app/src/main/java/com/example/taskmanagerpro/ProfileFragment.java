@@ -1,6 +1,7 @@
 package com.example.taskmanagerpro;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +50,7 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference databaseReference;
     private StorageReference mStorageRef;
     private StorageTask mUpload;
-    private TextView aboutAppTv, Name, Email, Share,sendFeedback;
+    private TextView aboutAppTv, Name, Email, Share,sendFeedback,rateApp;
 
     @Nullable
     @Override
@@ -62,6 +63,7 @@ public class ProfileFragment extends Fragment {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance ();
         databaseReference = firebaseDatabase.getReference ("Users");
 
+        rateApp=v.findViewById (R.id.RateApp);
         avatar = v.findViewById (R.id.avatarIv);
         Name = v.findViewById (R.id.User_name);
         Email = v.findViewById (R.id.User_email);
@@ -123,6 +125,21 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //rate app function, this will come in the update
+        rateApp.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                try{
+                    startActivity (new Intent (Intent.ACTION_VIEW,
+                            Uri.parse ("market://details?id=" +getContext ().getPackageName ())));
+                }catch (ActivityNotFoundException e){
+                    startActivity (new Intent (Intent.ACTION_VIEW,
+                            Uri.parse ("http://play.google.com/store/apps/details?id=" +getContext ().getPackageName ())));
+                }
+            }
+        });
+
+
         //log out function
         logoutTV.setOnClickListener (v1 -> {
             DialogFragment dialogFragment = new LogoutDialogFragment ();
@@ -132,6 +149,7 @@ public class ProfileFragment extends Fragment {
 
         //share function
         Share.setOnClickListener (v14 -> {
+            //TODO remember to replace the google play with website link
             Intent a = new Intent (Intent.ACTION_SEND);
             final String appPackageName = getActivity ().getApplicationContext ().getPackageName ();
             String strAppLink;
