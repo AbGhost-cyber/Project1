@@ -8,13 +8,13 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,17 +30,11 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
     public static final String EXTRA_TITLE = "com.example.todomadeasy.EXTRA_TITLE";
     public static final String EXTRA_DESC = "com.example.todomadeasy.EXTRA_DES";
     public static final String EXTRA_DATE = "com.example.todomadeasy.EXTRA_DATE";
-    public static final int RESULTCODE = 1;
     private EditText titleTask;
     private EditText Description;
-    static Calendar c;
-    static String time;
-    static String title;
-    static String description;
+    private Calendar c;
     private TextView TaskTime;
-    public static AlarmManager alarmManager;
-   public  Intent intent;
-   public static PendingIntent pendingIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +71,10 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
             setTitle ("Create Task");
         }
 
-        saveTask.setOnClickListener (v -> CreateTaskActivity.this.SaveCreatedTask ());
+        saveTask.setOnClickListener (v -> {
+            CreateTaskActivity.this.SaveCreatedTask ();
+
+        });
 
         canceltask.setOnClickListener (v -> {
             Intent a = new Intent (CreateTaskActivity.this, MainActivity.class);
@@ -86,9 +83,9 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
     }
 
     private void SaveCreatedTask() {
-        title = titleTask.getText ().toString ();
-        description = Description.getText ().toString ();
-        time = DateFormat.getTimeInstance (DateFormat.SHORT).format (c.getTime ());
+        String title = titleTask.getText ().toString ();
+        String description = Description.getText ().toString ();
+        String time = DateFormat.getTimeInstance (DateFormat.SHORT).format (c.getTime ());
 
         if (TextUtils.isEmpty (title)) {
             titleTask.setError ("please input a Task");
@@ -110,8 +107,9 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
             data.putExtra (EXTRA_ID, id);
         }
         setResult (RESULT_OK, data);
-        finish ();
         TaskTime.setText (time);
+        finish ();
+
     }
 
     @Override
@@ -120,94 +118,35 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         c.set (Calendar.MINUTE, minute);
         c.set (Calendar.SECOND, 0);
 
-        fireNotification (c);
+        //start alarm on timeset
+       fireNotification (c);
     }
 
     private void fireNotification(Calendar c) {
-         alarmManager = (AlarmManager) getSystemService (Context.ALARM_SERVICE);
-         intent = new Intent (getApplicationContext (), AlertReciever.class);
+        Intent intent = new Intent (this, AlertReceiver.class);
+        String title=titleTask.getText ().toString ();
+        String des=Description.getText ().toString ();
+        String time = DateFormat.getTimeInstance (DateFormat.SHORT).format (c.getTime ());
 
-         pendingIntent = PendingIntent.getBroadcast (this, RESULTCODE, intent, 0);
+        intent.putExtra (EXTRA_TITLE,title);
+        intent.putExtra (EXTRA_DESC,des);
+        intent.putExtra (EXTRA_DATE,time);
+
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast (this,
+                AlertReceiver.getID (),
+                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService (ALARM_SERVICE);
         if (c.before (Calendar.getInstance ())) {
             c.add (Calendar.DATE, 1);
         }
-
-
-        assert alarmManager != null;
-        alarmManager.setExact (AlarmManager.RTC_WAKEUP, c.getTimeInMillis (), pendingIntent);
-    }
-
-
-    // task notification class
-    public static class taskNotificationHelper extends ContextWrapper {
-        public static final String TaskChannel1_ID = "taskChannel1ID";
-        public static final String TaskChannel1_Name = "Task Alarm";
-        public static final String EXTRA_TITLE = "com.example.todomadeasy.EXTRA_TITLE";
-
-        private NotificationManager mManager;
-
-
-        public taskNotificationHelper(Context base) {
-            super (base);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                createChannels ();
-            }
-
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        private void createChannels() {
-            NotificationChannel taskCh1 = new NotificationChannel (
-                    TaskChannel1_ID,
-                    TaskChannel1_Name,
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            getManager ().createNotificationChannel (taskCh1);
-
-        }
-
-        public NotificationManager getManager() {
-            if (mManager == null) {
-                mManager = (NotificationManager) getSystemService (Context.NOTIFICATION_SERVICE);
-            }
-            return mManager;
-        }
-
-        public NotificationCompat.Builder getChannelNotification() {
-            Intent Resultintent = new Intent (getApplicationContext (), SendToComplete.class);
-
-            Intent getIntent=new Intent (getApplicationContext (),MainActivity.class);
-            getIntent.putExtra (EXTRA_TITLE,title);
-
-            Resultintent.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Resultintent.putExtra ("Title", title);
-            Resultintent.putExtra ("Description", description);
-            Resultintent.putExtra ("Time", time);
-            PendingIntent resultPendingIntent = PendingIntent.getActivity (getApplicationContext (), RESULTCODE, Resultintent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-            return new NotificationCompat.Builder (this, TaskChannel1_ID)
-                    .setContentTitle ("Right on time!")
-                    .setContentText ("it's time to " + title + " Let's Go!")
-                    .setColor (getResources ().getColor (R.color.colorAccent))
-                    .setSmallIcon (R.drawable.ic_alarm)
-                    .setContentIntent (resultPendingIntent)
-                    .setAutoCancel (true)
-                    .setPriority (NotificationCompat.PRIORITY_HIGH);
+        if (alarmManager != null) {
+            alarmManager.setExact (AlarmManager.RTC_WAKEUP, c.getTimeInMillis (), pendingIntent);
         }
 
     }
-    //handles  notification swipe deleted tasks
-    public static void CancelNotForDeleted(){
-        alarmManager.cancel(pendingIntent);
-    }
-    public static void setNotForDeleted(){
-        if (c.before (Calendar.getInstance ())) {
-            c.add (Calendar.DATE, 1);
-        }
-        alarmManager.setExact (AlarmManager.RTC_WAKEUP, c.getTimeInMillis (), pendingIntent);
-    }
+
 
 
 

@@ -63,7 +63,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <receiver android:name=".AlertReciever" />
+        <receiver android:name=".AlertReceiver"/>
     </application>
 
 </manifest>

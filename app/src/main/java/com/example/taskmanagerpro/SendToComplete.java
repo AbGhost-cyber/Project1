@@ -19,7 +19,11 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 public class SendToComplete extends AppCompatActivity {
   Button CompleteTask;
     String title,des,time;
-    public static final int RESULTCODE=2;
+    int id;
+    Intent intent;
+    public static final String TITLE=" com.example.taskmanagerpro.TITLE";
+    public static final String DESC=" com.example.taskmanagerpro.DESC";
+    public static final String TIME=" com.example.taskmanagerpro.TIME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +36,10 @@ public class SendToComplete extends AppCompatActivity {
 
         setTitle ("Task Alarm");
 
-        Intent intent=getIntent ();
-        title=intent.getStringExtra ("Title");
-        des=intent.getStringExtra ("Description");
-        time=intent.getStringExtra ("Time");
+        intent=getIntent ();
+        title=intent.getStringExtra (AlertReceiver.taskNotificationHelper.TITLE);
+        des=intent.getStringExtra (AlertReceiver.taskNotificationHelper.DESC);
+        time=intent.getStringExtra (AlertReceiver.taskNotificationHelper.TIME);
 
         setTitle.setText (title);
         setDesc.setText (des);
@@ -44,7 +48,7 @@ public class SendToComplete extends AppCompatActivity {
 
         CompleteTask.setOnClickListener (v -> {
             SendToComplete.this.showCompleteTaskDialog ();
-            CancelNotification ();
+
         });
 
     }
@@ -67,18 +71,11 @@ public class SendToComplete extends AppCompatActivity {
     //create method that sends data to mainActivity, then CompletedTaskfragment takes it from there
     private void sendToComplete() {
         Intent data = new Intent (this,MainActivity.class);
-        data.putExtra ("Title", title);
-       data.putExtra ("Time", time);
+        data.putExtra (TITLE, title);
+       data.putExtra (TIME, time);
         startActivity (data);
         finish ();
         StyleableToast.makeText (this,"Task Completed",R.style.myToast).show ();
     }
-    //method that cancels and update the notification
-    private void CancelNotification(){
-        Intent intent = new Intent (getApplicationContext (), AlertReciever.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext (), RESULTCODE, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getApplicationContext ().getSystemService (Context.ALARM_SERVICE);
-        alarmManager.cancel(pendingIntent);
-    }
+
 }

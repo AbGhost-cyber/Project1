@@ -45,11 +45,19 @@ public class CompletedTaskFragment extends Fragment {
         if (intent.getExtras () != null) {
             CompletedTaskClass completedTaskClass = new CompletedTaskClass ();
 
-            completedTaskClass.setTitle (intent.getStringExtra ("Title"));
-            completedTaskClass.setTime (intent.getStringExtra ("Time"));
-            db.insertData (completedTaskClass);
-            completedListItem.clear ();
-            DisplayData ();
+            String title=intent.getStringExtra (SendToComplete.TITLE);
+            String time=intent.getStringExtra (SendToComplete.TIME);
+
+            if (title != null && !title.trim ().equals ("")){
+
+                if(time != null && !time.trim ().equals ("")){
+                    completedTaskClass.setTitle (title);
+                    completedTaskClass.setTime (time);
+                    db.insertData (completedTaskClass);
+                    completedListItem.clear ();
+                    DisplayData ();
+                }
+            }
         }
 
 
@@ -80,12 +88,9 @@ public class CompletedTaskFragment extends Fragment {
                     StyleableToast.makeText (getContext (), "deleted", R.style.myToast).show ();
 
                 });
-                builder.setNegativeButton ("Cancel", new DialogInterface.OnClickListener () {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss ();
-                        StyleableToast.makeText (getContext (), "cancelled", R.style.myToast1).show ();
-                    }
+                builder.setNegativeButton ("Cancel", (dialog, which) -> {
+                    dialog.dismiss ();
+                    StyleableToast.makeText (getContext (), "cancelled", R.style.myToast1).show ();
                 });
                 builder.create ().show ();
             });
@@ -98,8 +103,8 @@ public class CompletedTaskFragment extends Fragment {
         super.onResume ();
         completedListItem.clear ();
         DisplayData ();
-        intent.removeExtra ("Title");
-        intent.removeExtra ("Time");
+        intent.removeExtra (SendToComplete.TITLE);
+        intent.removeExtra (SendToComplete.TIME);
 
     }
 

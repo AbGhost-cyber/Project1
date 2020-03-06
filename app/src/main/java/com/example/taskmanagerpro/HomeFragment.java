@@ -1,15 +1,8 @@
 package com.example.taskmanagerpro;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +11,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,7 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.Calendar;
-import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -53,10 +42,10 @@ public class HomeFragment extends Fragment {
     private TaskViewModel taskViewModel;
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
-    private TextView DisplayName, DisplayQuote;
+    private TextView DisplayName, DisplayQuote, time;
     private int TimeOfDay;
     private TextView endpage;
-    Intent intent;
+    private Calendar calendar;
 
 
     @Nullable
@@ -67,50 +56,59 @@ public class HomeFragment extends Fragment {
         FloatingActionButton buttonAddTask = v.findViewById (R.id.button_add_task);
         SearchView searchView = v.findViewById (R.id.SearchView);
 
-        intent=getActivity ().getIntent ();
-
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance ();
         DatabaseReference databaseReference = firebaseDatabase.getReference ("Users");
         DisplayName = v.findViewById (R.id.UserNAME);
         DisplayQuote = v.findViewById (R.id.quotepage);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance ();
         FirebaseUser user = firebaseAuth.getCurrentUser ();
-        Calendar calendar = Calendar.getInstance ();
+        calendar = Calendar.getInstance ();
         TimeOfDay = calendar.get (Calendar.HOUR_OF_DAY);
         endpage = v.findViewById (R.id.endPage);
+        time = v.findViewById (R.id.timeofday);
 
         //gets user's username from database and display in accordance with the current time
         Query query = null;
         if (user != null) {
             query = databaseReference.orderByChild ("email").equalTo (user.getEmail ());
         }
-        query.addValueEventListener (new ValueEventListener () {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren ()) {
-                    String username = "" + d.child ("username").getValue ();
-                    if (TimeOfDay >= 0 && TimeOfDay < 12) {
-                        DisplayName.setText (String.format ("Good Morning,%s", username));
-                        DisplayName.setVisibility (View.VISIBLE);
-                        DisplayQuote.setVisibility (View.VISIBLE);
-                    } else if (TimeOfDay >= 12 && TimeOfDay < 16) {
-                        DisplayName.setText (String.format ("Good Afternoon,%s", username));
-                        DisplayName.setVisibility (View.VISIBLE);
-                        DisplayQuote.setVisibility (View.VISIBLE);
-                    } else if (TimeOfDay >= 16 && TimeOfDay < 24) {
-                        DisplayName.setText (String.format ("Good Evening,%s", username));
-                        DisplayName.setVisibility (View.VISIBLE);
-                        DisplayQuote.setVisibility (View.VISIBLE);
+        if (query != null) {
+            query.addValueEventListener (new ValueEventListener () {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot d : dataSnapshot.getChildren ()) {
+                        String username = "" + d.child ("username").getValue ();
+                        if (TimeOfDay >= 0 && TimeOfDay < 12) {
+                            time.setText (getString (R.string.goodmorning));
+                            DisplayName.setText (username.toUpperCase ());
+                            time.setVisibility (View.VISIBLE);
+                            DisplayName.setVisibility (View.VISIBLE);
+                            DisplayQuote.setVisibility (View.VISIBLE);
+
+                        } else if (TimeOfDay >= 12 && TimeOfDay < 16) {
+                            time.setText (getString (R.string.goodafternoon));
+                            DisplayName.setText (username.toUpperCase ());
+                            time.setVisibility (View.VISIBLE);
+                            DisplayName.setVisibility (View.VISIBLE);
+                            DisplayQuote.setVisibility (View.VISIBLE);
+
+                        } else if (TimeOfDay >= 16 && TimeOfDay < 24) {
+                            DisplayName.setText (username.toUpperCase ());
+                            time.setText (getString (R.string.goodevening));
+                            time.setVisibility (View.VISIBLE);
+                            DisplayName.setVisibility (View.VISIBLE);
+                            DisplayQuote.setVisibility (View.VISIBLE);
+                        }
+
                     }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+            });
+        }
 
 
         //search bar algorithm
@@ -145,20 +143,15 @@ public class HomeFragment extends Fragment {
 
 
         taskViewModel = ViewModelProviders.of (this).get (TaskViewModel.class);
-        taskViewModel.getAllTasks ().observe (this, new Observer<List<MyTask>> () {
-            @Override
-            public void onChanged(List<MyTask> myTasks) {
-                //check if the list containing our model object is null
-                //then display the "end of page" text if the list contains something
-                if (myTasks.size ()<=0){
-                    endpage.setVisibility (View.INVISIBLE);
-                }
-                adapter.setTasks (myTasks);
-                adapter.notifyDataSetChanged ();
+        taskViewModel.getAllTasks ().observe (this, myTasks -> {
+            //check if the list containing our model object is null
+            //then display the "end of page" text if the list contains something
+            if (myTasks.size () <= 0) {
+                endpage.setVisibility (View.INVISIBLE);
             }
+            adapter.setTasks (myTasks);
+            adapter.notifyDataSetChanged ();
         });
-
-
 
 
         //swipe delete function
@@ -176,19 +169,11 @@ public class HomeFragment extends Fragment {
                     final int adapterPosition = viewHolder.getAdapterPosition ();
                     final MyTask deletedTask = adapter.getTaskAt (adapterPosition);
                     taskViewModel.delete (deletedTask);
-                    //checks if the deleted task is equal to the upcoming notification title, if yes, then the pending notification gets cancelled
-                    if(deletedTask.getTaskTime ().equals (intent.getStringExtra (CreateTaskActivity.taskNotificationHelper.EXTRA_TITLE))){
-                        CreateTaskActivity.CancelNotForDeleted ();
-                    }
 
                     Snackbar.make (recyclerView, "Task deleted", Snackbar.LENGTH_LONG)
                             .setActionTextColor (getResources ().getColor (R.color.white))
                             .setAction ("Undo", v1 -> {
                                 taskViewModel.insert (deletedTask);
-                                // continues the pending notification
-                                if(intent.getStringExtra (CreateTaskActivity.taskNotificationHelper.EXTRA_TITLE)!=null){
-                                    CreateTaskActivity.setNotForDeleted ();
-                                }
                                 adapter.notifyDataSetChanged ();
                                 endpage.setVisibility (View.VISIBLE);
                                 adapter.notifyItemChanged (adapterPosition);
@@ -198,6 +183,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 TaskAdapter.TaskHolder taskHolder = (TaskAdapter.TaskHolder) viewHolder;
+
 
             }
 
@@ -240,6 +226,7 @@ public class HomeFragment extends Fragment {
 
             MyTask myTask = new MyTask (title, Des, Date);
             taskViewModel.insert (myTask);
+
             StyleableToast.makeText (getContext (), "Task created", R.style.myToast).show ();
             endpage.setVisibility (View.VISIBLE);
 
@@ -261,6 +248,7 @@ public class HomeFragment extends Fragment {
 
         }
     }
+
 
     @Override
     public void onResume() {
