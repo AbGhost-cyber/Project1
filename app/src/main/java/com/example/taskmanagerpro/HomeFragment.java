@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
         endpage = v.findViewById (R.id.endPage);
         time = v.findViewById (R.id.timeofday);
 
+
         //gets user's username from database and display in accordance with the current time
         Query query = null;
         if (user != null) {
@@ -169,6 +170,7 @@ public class HomeFragment extends Fragment {
                     final int adapterPosition = viewHolder.getAdapterPosition ();
                     final MyTask deletedTask = adapter.getTaskAt (adapterPosition);
                     taskViewModel.delete (deletedTask);
+
 
                     Snackbar.make (recyclerView, "Task deleted", Snackbar.LENGTH_LONG)
                             .setActionTextColor (getResources ().getColor (R.color.white))

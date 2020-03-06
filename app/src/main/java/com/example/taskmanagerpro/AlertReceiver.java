@@ -24,7 +24,7 @@ public class AlertReceiver extends BroadcastReceiver {
         String description = intent.getStringExtra (CreateTaskActivity.EXTRA_DESC);
         String time = intent.getStringExtra (CreateTaskActivity.EXTRA_DATE);
         taskNotificationHelper b = new taskNotificationHelper (context);
-        NotificationCompat.Builder builder = b.ScheduleNotification (title,description,time);
+        NotificationCompat.Builder builder = b.ScheduleNotification (title, description, time);
         b.getManager ().notify (id, builder.build ());
 
     }
@@ -38,9 +38,9 @@ public class AlertReceiver extends BroadcastReceiver {
     public static class taskNotificationHelper extends ContextWrapper {
         public static final String TaskChannel1_ID = "taskChannel1ID";
         public static final String TaskChannel1_Name = "Task Alarm";
-        public static final String TITLE="com.example.taskmanagerpro.TITLE";
-        public static final String DESC="com.example.taskmanagerpro.DESC";
-        public static final String TIME="com.example.taskmanagerpro.TIME";
+        public static final String TITLE = "com.example.taskmanagerpro.TITLE";
+        public static final String DESC = "com.example.taskmanagerpro.DESC";
+        public static final String TIME = "com.example.taskmanagerpro.TIME";
 
         private NotificationManager mManager;
 
@@ -71,7 +71,7 @@ public class AlertReceiver extends BroadcastReceiver {
             return mManager;
         }
 
-        public NotificationCompat.Builder ScheduleNotification(String title,String description,String time) {
+        public NotificationCompat.Builder ScheduleNotification(String title, String description, String time) {
 
 
             Intent Notificationintent = new Intent (this, SendToComplete.class);

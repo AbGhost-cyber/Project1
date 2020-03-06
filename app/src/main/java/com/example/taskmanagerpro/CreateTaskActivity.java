@@ -1,24 +1,16 @@
 package com.example.taskmanagerpro;
 
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.DialogFragment;
 
 import java.text.DateFormat;
@@ -34,7 +26,6 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
     private EditText Description;
     private Calendar c;
     private TextView TaskTime;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,25 +110,25 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         c.set (Calendar.SECOND, 0);
 
         //start alarm on timeset
-       fireNotification (c);
+        fireNotification (c);
     }
 
     private void fireNotification(Calendar c) {
         Intent intent = new Intent (this, AlertReceiver.class);
-        String title=titleTask.getText ().toString ();
-        String des=Description.getText ().toString ();
+        String title = titleTask.getText ().toString ();
+        String des = Description.getText ().toString ();
         String time = DateFormat.getTimeInstance (DateFormat.SHORT).format (c.getTime ());
 
-        intent.putExtra (EXTRA_TITLE,title);
-        intent.putExtra (EXTRA_DESC,des);
-        intent.putExtra (EXTRA_DATE,time);
 
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast (this,
-                AlertReceiver.getID (),
-                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        intent.putExtra (EXTRA_TITLE, title);
+        intent.putExtra (EXTRA_DESC, des);
+        intent.putExtra (EXTRA_DATE, time);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService (ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast (this,
+                AlertReceiver.getID (),
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         if (c.before (Calendar.getInstance ())) {
             c.add (Calendar.DATE, 1);
         }
@@ -146,8 +137,6 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         }
 
     }
-
-
 
 
 }
