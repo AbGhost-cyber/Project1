@@ -22,7 +22,7 @@ public class AlertReceiver extends BroadcastReceiver {
         //get intent extras from CreatTaskActivity
         String title = intent.getStringExtra (CreateTaskActivity.EXTRA_TITLE);
         String description = intent.getStringExtra (CreateTaskActivity.EXTRA_DESC);
-        String time = intent.getStringExtra (CreateTaskActivity.EXTRA_DATE);
+        String time = intent.getStringExtra (CreateTaskActivity.EXTRA_TIME);
         taskNotificationHelper b = new taskNotificationHelper (context);
         NotificationCompat.Builder builder = b.ScheduleNotification (title, description, time);
         b.getManager ().notify (id, builder.build ());

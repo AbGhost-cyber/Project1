@@ -12,5 +12,5 @@
         android:state_selected="true"/>
 
     <item
-        android:drawable="@drawable/bginput" />
+        android:drawable="@drawable/bginput"/>
 </selector>

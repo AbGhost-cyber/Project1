@@ -4,11 +4,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -21,7 +23,7 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
     public static final String EXTRA_ID = "com.example.todomadeasy.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.example.todomadeasy.EXTRA_TITLE";
     public static final String EXTRA_DESC = "com.example.todomadeasy.EXTRA_DES";
-    public static final String EXTRA_DATE = "com.example.todomadeasy.EXTRA_DATE";
+    public static final String EXTRA_TIME = "com.example.todomadeasy.EXTRA_TIME";
     private EditText titleTask;
     private EditText Description;
     private Calendar c;
@@ -39,10 +41,11 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         Button canceltask = findViewById (R.id.Cancel_Task);
         Button timePicker1 = findViewById (R.id.TimePicker);
         c = Calendar.getInstance ();
+        DialogFragment timePicker = new TimePickerFragment ();
 
         timePicker1.setOnClickListener (v -> {
-            DialogFragment timePicker = new TimePickerFragment ();
             timePicker.show (CreateTaskActivity.this.getSupportFragmentManager (), "time picker");
+
         });
 
 
@@ -52,11 +55,10 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
 
             titleTask.setText (intent.getStringExtra (EXTRA_TITLE));
             Description.setText (intent.getStringExtra (EXTRA_DESC));
-            TaskTime.setText (intent.getStringExtra (EXTRA_DATE));
+            TaskTime.setText (intent.getStringExtra (EXTRA_TIME));
             saveTask.setText (R.string.Task);
             canceltask.setText (R.string.CancelUpdate);
             setTitle ("Edit Task");
-
 
         } else {
             setTitle ("Create Task");
@@ -90,7 +92,7 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         Intent data = new Intent ();
         data.putExtra (EXTRA_TITLE, title);
         data.putExtra (EXTRA_DESC, description);
-        data.putExtra (EXTRA_DATE, time);
+        data.putExtra (EXTRA_TIME, time);
 
 
         int id = getIntent ().getIntExtra (EXTRA_ID, -1);
@@ -109,6 +111,7 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         c.set (Calendar.MINUTE, minute);
         c.set (Calendar.SECOND, 0);
 
+
         //start alarm on timeset
         fireNotification (c);
     }
@@ -122,7 +125,7 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
 
         intent.putExtra (EXTRA_TITLE, title);
         intent.putExtra (EXTRA_DESC, des);
-        intent.putExtra (EXTRA_DATE, time);
+        intent.putExtra (EXTRA_TIME, time);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService (ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast (this,

@@ -208,7 +208,7 @@ public class HomeFragment extends Fragment {
             intent1.putExtra (CreateTaskActivity.EXTRA_ID, task.getId ());
             intent1.putExtra (CreateTaskActivity.EXTRA_TITLE, task.getTitleTask ());
             intent1.putExtra (CreateTaskActivity.EXTRA_DESC, task.getDescription ());
-            intent1.putExtra (CreateTaskActivity.EXTRA_DATE, task.getTaskTime ());
+            intent1.putExtra (CreateTaskActivity.EXTRA_TIME, task.getTaskTime ());
 
             HomeFragment.this.startActivityForResult (intent1, EDIT_NOTE_REQUEST);
 
@@ -224,7 +224,7 @@ public class HomeFragment extends Fragment {
         if (requestCode == ADD_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
             String title = data.getStringExtra (CreateTaskActivity.EXTRA_TITLE);
             String Des = data.getStringExtra (CreateTaskActivity.EXTRA_DESC);
-            String Date = data.getStringExtra (CreateTaskActivity.EXTRA_DATE);
+            String Date = data.getStringExtra (CreateTaskActivity.EXTRA_TIME);
 
             MyTask myTask = new MyTask (title, Des, Date);
             taskViewModel.insert (myTask);
@@ -241,7 +241,7 @@ public class HomeFragment extends Fragment {
             }
             String title = data.getStringExtra (CreateTaskActivity.EXTRA_TITLE);
             String Des = data.getStringExtra (CreateTaskActivity.EXTRA_DESC);
-            String Date = data.getStringExtra (CreateTaskActivity.EXTRA_DATE);
+            String Date = data.getStringExtra (CreateTaskActivity.EXTRA_TIME);
 
             MyTask myTask = new MyTask (title, Des, Date);
             myTask.setId (id);
