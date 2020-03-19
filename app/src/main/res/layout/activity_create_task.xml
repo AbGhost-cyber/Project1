@@ -61,11 +61,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="@drawable/bgputask"
+                        android:fontFamily="@font/amaranth_bold"
                         android:hint="What you up to?"
                         android:inputType="text"
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
-                        android:fontFamily="@font/amaranth_bold"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="#B5B5B5" />
 
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:fontFamily="@font/averia_libre_bold"
-                        android:text="Description"
+                        android:text="short note"
                         android:textColor="@color/bgColor_overlay"
                         android:textSize="18sp" />
 
@@ -94,13 +94,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="@drawable/bgputask"
-                        android:hint="How to?"
+                        android:fontFamily="@font/amaranth_bold"
+                        android:hint="write something?"
                         android:inputType="text"
                         android:maxLength="80"
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
                         android:textColor="@color/colorPrimaryDark"
-                        android:fontFamily="@font/amaranth_bold"
                         android:textColorHint="#B5B5B5" />
 
                 </LinearLayout>
@@ -124,14 +124,14 @@
                         android:textSize="18sp" />
 
                     <Button
+                        android:id="@+id/TimePicker"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bginput"
-                        android:textColor="@color/yellow"
-                        android:textSize="12sp"
-                        android:textAllCaps="false"
                         android:text="@string/open_clock"
-                        android:id="@+id/TimePicker"/>
+                        android:textAllCaps="false"
+                        android:textColor="@color/yellow"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/task_time"
