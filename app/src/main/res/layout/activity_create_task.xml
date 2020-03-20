@@ -92,7 +92,7 @@
                     <EditText
                         android:id="@+id/task_Des"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                        android:layout_height="70dp"
                         android:background="@drawable/bgputask"
                         android:fontFamily="@font/amaranth_bold"
                         android:hint="write something?"
