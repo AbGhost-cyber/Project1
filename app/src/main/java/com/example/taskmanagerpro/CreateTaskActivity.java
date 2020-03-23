@@ -1,6 +1,7 @@
 package com.example.taskmanagerpro;
 
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -8,27 +9,31 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 
 
-public class CreateTaskActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class CreateTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener {
     public static final String EXTRA_ID = "com.example.todomadeasy.EXTRA_ID";
     public static final String EXTRA_TITLE = "com.example.todomadeasy.EXTRA_TITLE";
     public static final String EXTRA_DESC = "com.example.todomadeasy.EXTRA_DES";
     public static final String EXTRA_TIME = "com.example.todomadeasy.EXTRA_TIME";
-    public static final String EXTRA_HOUR = "com.example.todomadeasy.EXTRA_HOUR";
-    public static final String EXTRA_MIN = "com.example.todomadeasy.EXTRA_MIN";
+
     private EditText titleTask;
     private EditText Description;
-    private Calendar c;
     private TextView TaskTime;
+    public int Mday, Mmonth, Myear, Mhour, Mminute;
+    Calendar selectedDate;
+
+
+    String currentDate, currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +45,22 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         TaskTime = findViewById (R.id.task_time);
         Button saveTask = findViewById (R.id.SaveTask);
         Button canceltask = findViewById (R.id.Cancel_Task);
-        Button timePicker1 = findViewById (R.id.TimePicker);
-        c = Calendar.getInstance ();
-        DialogFragment timePicker = new TimePickerFragment ();
-
+        Button showPicker = findViewById (R.id.TimePicker);
 
         Intent intent = getIntent ();
 
-        timePicker1.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                timePicker.show (CreateTaskActivity.this.getSupportFragmentManager (), "time picker");
+        //show date and time dialog
+        showPicker.setOnClickListener (v -> {
+            //default values
+            final Calendar instance = Calendar.getInstance ();
+            Myear = instance.get (Calendar.YEAR);
+            Mmonth = instance.get (Calendar.MONTH);
+            Mday = instance.get (Calendar.DAY_OF_MONTH);
 
-            }
+            //create an object of datepickerdialog class
+            DatePickerDialog datePickerDialog = new DatePickerDialog (CreateTaskActivity.this,
+                    CreateTaskActivity.this, Myear, Mmonth, Mday);
+            datePickerDialog.show ();
         });
 
         if (intent.hasExtra (EXTRA_ID)) {
@@ -68,13 +76,7 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
             setTitle ("Create Task");
         }
 
-        saveTask.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                CreateTaskActivity.this.SaveCreatedTask ();
-
-            }
-        });
+        saveTask.setOnClickListener (v -> CreateTaskActivity.this.SaveCreatedTask ());
 
         canceltask.setOnClickListener (v -> {
             Intent a = new Intent (CreateTaskActivity.this, MainActivity.class);
@@ -82,10 +84,11 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         });
     }
 
+
     private void SaveCreatedTask() {
         String title = titleTask.getText ().toString ();
         String description = Description.getText ().toString ();
-        String time = DateFormat.getTimeInstance (DateFormat.SHORT).format (c.getTime ());
+        String time = currentDate + " at " + currentTime;
 
         if (TextUtils.isEmpty (title)) {
             titleTask.setError ("please input a Task");
@@ -93,7 +96,7 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
         }
 
         if (TextUtils.isEmpty (description)) {
-            Description.setError ("Describe it");
+            Description.setError ("write a short description");
             return;
         }
         Intent data = new Intent ();
@@ -113,22 +116,11 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
 
     }
 
-    @Override
-    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
-
-        c.set (Calendar.HOUR_OF_DAY, hourOfDay);
-        c.set (Calendar.MINUTE, minute);
-        c.set (Calendar.SECOND, 0);
-
-        //start alarm on timeset
-        fireNotification (c);
-    }
-
-    private void fireNotification(Calendar calendar) {
+    private void fireNotification(Calendar targetCal) {
         Intent intent = new Intent (this, AlertReceiver.class);
         String title = titleTask.getText ().toString ();
         String des = Description.getText ().toString ();
-        String time = DateFormat.getTimeInstance (DateFormat.SHORT).format (calendar.getTime ());
+        String time = currentDate + " at " + currentTime;
 
 
         intent.putExtra (EXTRA_TITLE, title);
@@ -140,14 +132,49 @@ public class CreateTaskActivity extends AppCompatActivity implements TimePickerD
                 AlertReceiver.getID (),
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (calendar.before (Calendar.getInstance ())) {
-            calendar.add (Calendar.DATE, 1);
+        // if selected time is before the current time
+        if (targetCal.before (Calendar.getInstance ())) {
+            targetCal.add (Calendar.DATE, 1);
         }
         if (alarmManager != null) {
-            alarmManager.setExact (AlarmManager.RTC_WAKEUP, c.getTimeInMillis (), pendingIntent);
+            alarmManager.setExact (AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis (), pendingIntent);
         }
 
     }
 
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        final Calendar c = Calendar.getInstance ();
+        c.set (year, month, dayOfMonth);
+
+        selectedDate = c;
+
+
+        currentDate = java.text.DateFormat.getDateInstance (java.text.DateFormat.SHORT).format (c.getTime ());
+
+        Mhour = c.get (Calendar.HOUR_OF_DAY);
+        Mminute = c.get (Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog (CreateTaskActivity.this,
+                CreateTaskActivity.this, Mhour,
+                Mminute, android.text.
+                format.DateFormat.is24HourFormat (this));
+
+        timePickerDialog.show ();
+
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        final Calendar c = Calendar.getInstance ();
+
+        selectedDate.set (c.get (Calendar.YEAR), selectedDate.get (Calendar.MONTH),
+                selectedDate.get (Calendar.DAY_OF_MONTH), hourOfDay, minute);
+
+        currentTime = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (selectedDate.getTime ());
+
+        // send notification on selected time/date
+        fireNotification (selectedDate);
+    }
 }
