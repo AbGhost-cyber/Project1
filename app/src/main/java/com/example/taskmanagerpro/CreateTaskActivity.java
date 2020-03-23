@@ -5,9 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.icu.util.LocaleData;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
+import android.text.format.DateUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -16,7 +17,11 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class CreateTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
@@ -33,7 +38,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
     Calendar selectedDate;
 
 
-    String currentDate, currentTime;
+    String dateSelected, currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,8 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
             //create an object of datepickerdialog class
             DatePickerDialog datePickerDialog = new DatePickerDialog (CreateTaskActivity.this,
                     CreateTaskActivity.this, Myear, Mmonth, Mday);
+            //disable past dates
+            datePickerDialog.getDatePicker ().setMinDate (System.currentTimeMillis ()-1000);
             datePickerDialog.show ();
         });
 
@@ -88,7 +95,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
     private void SaveCreatedTask() {
         String title = titleTask.getText ().toString ();
         String description = Description.getText ().toString ();
-        String time = currentDate + " at " + currentTime;
+        String time = dateSelected + " at " + currentTime;
 
         if (TextUtils.isEmpty (title)) {
             titleTask.setError ("please input a Task");
@@ -120,7 +127,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         Intent intent = new Intent (this, AlertReceiver.class);
         String title = titleTask.getText ().toString ();
         String des = Description.getText ().toString ();
-        String time = currentDate + " at " + currentTime;
+        String time = dateSelected + " at " + currentTime;
 
 
         intent.putExtra (EXTRA_TITLE, title);
@@ -132,13 +139,19 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                 AlertReceiver.getID (),
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // if selected time is before the current time
-        if (targetCal.before (Calendar.getInstance ())) {
-            targetCal.add (Calendar.DATE, 1);
+        // start alarm is the selected time is not before the current time
+        if(!targetCal.before (Calendar.getInstance ())){
+            if (alarmManager != null) {
+                alarmManager.setExact (AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis (), pendingIntent);
+            }
         }
-        if (alarmManager != null) {
-            alarmManager.setExact (AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis (), pendingIntent);
+        else{
+            //else cancel its pendingAlarm
+            assert alarmManager != null;
+            alarmManager.cancel (pendingIntent);
+
         }
+
 
     }
 
@@ -150,16 +163,34 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
         selectedDate = c;
 
-
-        currentDate = java.text.DateFormat.getDateInstance (java.text.DateFormat.SHORT).format (c.getTime ());
-
         Mhour = c.get (Calendar.HOUR_OF_DAY);
         Mminute = c.get (Calendar.MINUTE);
+
+
+        dateSelected = java.text.DateFormat.getDateInstance (java.text.DateFormat.SHORT).format (c.getTime ());
+
+
+        if(isTomorrow (c.getTime ())){
+            dateSelected="Tomorrow";
+        }
+
+        else if(isToday (c.getTime ())){
+            dateSelected="Today";
+        }
+        else if(isYesterday (c.getTime ())){
+            dateSelected="Yesterday";
+        }
+
+       else{
+           dateSelected = java.text.DateFormat.getDateInstance (java.text.DateFormat.SHORT).format (c.getTime ());
+       }
+
 
         TimePickerDialog timePickerDialog = new TimePickerDialog (CreateTaskActivity.this,
                 CreateTaskActivity.this, Mhour,
                 Mminute, android.text.
                 format.DateFormat.is24HourFormat (this));
+
 
         timePickerDialog.show ();
 
@@ -176,5 +207,15 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
         // send notification on selected time/date
         fireNotification (selectedDate);
+    }
+
+    public  boolean isYesterday(Date d){
+        return DateUtils.isToday (d.getTime ()+DateUtils.DAY_IN_MILLIS);
+    }
+    public  boolean isTomorrow(Date d){
+        return DateUtils.isToday (d.getTime ()-DateUtils.DAY_IN_MILLIS);
+    }
+    public  boolean isToday(Date d){
+        return DateUtils.isToday (d.getTime ());
     }
 }
