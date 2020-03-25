@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -69,33 +70,36 @@ public class HomeFragment extends Fragment {
 
 
         //gets user's username from database and display in accordance with the current time
-        Query query = null;
+        Query query;
         if (user != null) {
             query = databaseReference.orderByChild ("email").equalTo (user.getEmail ());
-        }
-        if (query != null) {
+
             query.addValueEventListener (new ValueEventListener () {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot d : dataSnapshot.getChildren ()) {
                         String username = "" + d.child ("username").getValue ();
+                        String greetings;
                         if (TimeOfDay >= 0 && TimeOfDay < 12) {
-                            time.setText (getString (R.string.goodmorning));
+                            greetings="Good Morning,";
+                            time.setText (greetings);
                             DisplayName.setText (username.toUpperCase ());
                             time.setVisibility (View.VISIBLE);
                             DisplayName.setVisibility (View.VISIBLE);
                             DisplayQuote.setVisibility (View.VISIBLE);
 
                         } else if (TimeOfDay >= 12 && TimeOfDay < 16) {
-                            time.setText (getString (R.string.goodafternoon));
+                            greetings="Good Morning,";
+                            time.setText (greetings);
                             DisplayName.setText (username.toUpperCase ());
                             time.setVisibility (View.VISIBLE);
                             DisplayName.setVisibility (View.VISIBLE);
                             DisplayQuote.setVisibility (View.VISIBLE);
 
                         } else if (TimeOfDay >= 16 && TimeOfDay < 24) {
+                            greetings="Good Evening,";
                             DisplayName.setText (username.toUpperCase ());
-                            time.setText (getString (R.string.goodevening));
+                            time.setText (greetings);
                             time.setVisibility (View.VISIBLE);
                             DisplayName.setVisibility (View.VISIBLE);
                             DisplayQuote.setVisibility (View.VISIBLE);
@@ -109,8 +113,8 @@ public class HomeFragment extends Fragment {
 
                 }
             });
-        }
 
+        }
 
         //search bar algorithm
         searchView.setQueryHint ("Search");
