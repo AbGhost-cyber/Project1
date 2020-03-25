@@ -33,7 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.Calendar;
-import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -81,7 +80,7 @@ public class HomeFragment extends Fragment {
                         String username = "" + d.child ("username").getValue ();
                         String greetings;
                         if (TimeOfDay >= 0 && TimeOfDay < 12) {
-                            greetings="Good Morning,";
+                            greetings = "Good Morning,";
                             time.setText (greetings);
                             DisplayName.setText (username.toUpperCase ());
                             time.setVisibility (View.VISIBLE);
@@ -89,7 +88,7 @@ public class HomeFragment extends Fragment {
                             DisplayQuote.setVisibility (View.VISIBLE);
 
                         } else if (TimeOfDay >= 12 && TimeOfDay < 16) {
-                            greetings="Good Morning,";
+                            greetings = "Good Morning,";
                             time.setText (greetings);
                             DisplayName.setText (username.toUpperCase ());
                             time.setVisibility (View.VISIBLE);
@@ -97,7 +96,7 @@ public class HomeFragment extends Fragment {
                             DisplayQuote.setVisibility (View.VISIBLE);
 
                         } else if (TimeOfDay >= 16 && TimeOfDay < 24) {
-                            greetings="Good Evening,";
+                            greetings = "Good Evening,";
                             DisplayName.setText (username.toUpperCase ());
                             time.setText (greetings);
                             time.setVisibility (View.VISIBLE);
