@@ -5,9 +5,6 @@
     android:layout_height="match_parent"
     android:background="#F4F4F4"
     android:orientation="vertical"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingBottom="8dp"
     tools:context=".CreateTaskActivity">
 
     <ScrollView
@@ -22,7 +19,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="198dp"
-                android:background="@color/yellow"
+                android:background="@drawable/createtaskbg"
                 android:orientation="vertical">
 
 
@@ -51,9 +48,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/averia_libre_bold"
-                        android:text="Title"
-                        android:textColor="@color/bgColor_overlay"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:text="@string/title"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp" />
 
                     <EditText
@@ -62,7 +59,7 @@
                         android:layout_height="45dp"
                         android:background="@drawable/bgputask"
                         android:fontFamily="@font/amaranth_bold"
-                        android:hint="What you up to?"
+                        android:hint="@string/what_you_up_to"
                         android:inputType="text"
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
@@ -84,9 +81,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/averia_libre_bold"
-                        android:text="short note"
-                        android:textColor="@color/bgColor_overlay"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:text="@string/short_note"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp" />
 
                     <EditText
@@ -95,7 +92,7 @@
                         android:layout_height="70dp"
                         android:background="@drawable/bgputask"
                         android:fontFamily="@font/amaranth_bold"
-                        android:hint="write something?"
+                        android:hint="@string/write_something"
                         android:inputType="text"
                         android:maxLength="80"
                         android:paddingStart="12dp"
@@ -118,9 +115,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/averia_libre_bold"
-                        android:text="Timeline"
-                        android:textColor="@color/bgColor_overlay"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:text="@string/timeline"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp" />
 
                     <Button

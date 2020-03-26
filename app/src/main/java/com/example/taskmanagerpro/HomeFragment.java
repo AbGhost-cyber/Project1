@@ -32,6 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -42,8 +43,7 @@ public class HomeFragment extends Fragment {
     private TaskViewModel taskViewModel;
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
-    private TextView DisplayName, DisplayQuote, time;
-    private int TimeOfDay;
+    private TextView DisplayName,Date;
     private TextView endpage;
     private Calendar calendar;
 
@@ -58,14 +58,12 @@ public class HomeFragment extends Fragment {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance ();
         DatabaseReference databaseReference = firebaseDatabase.getReference ("Users");
-        DisplayName = v.findViewById (R.id.UserNAME);
-        DisplayQuote = v.findViewById (R.id.quotepage);
+        Date = v.findViewById (R.id.currentDate);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance ();
         FirebaseUser user = firebaseAuth.getCurrentUser ();
         calendar = Calendar.getInstance ();
-        TimeOfDay = calendar.get (Calendar.HOUR_OF_DAY);
         endpage = v.findViewById (R.id.endPage);
-        time = v.findViewById (R.id.timeofday);
+         DisplayName= v.findViewById (R.id.welcomeName);
 
 
         //gets user's username from database and display in accordance with the current time
@@ -78,31 +76,12 @@ public class HomeFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot d : dataSnapshot.getChildren ()) {
                         String username = "" + d.child ("username").getValue ();
-                        String greetings;
-                        if (TimeOfDay >= 0 && TimeOfDay < 12) {
-                            greetings = "Good Morning,";
-                            time.setText (greetings);
-                            DisplayName.setText (username.toUpperCase ());
-                            time.setVisibility (View.VISIBLE);
-                            DisplayName.setVisibility (View.VISIBLE);
-                            DisplayQuote.setVisibility (View.VISIBLE);
-
-                        } else if (TimeOfDay >= 12 && TimeOfDay < 16) {
-                            greetings = "Good Morning,";
-                            time.setText (greetings);
-                            DisplayName.setText (username.toUpperCase ());
-                            time.setVisibility (View.VISIBLE);
-                            DisplayName.setVisibility (View.VISIBLE);
-                            DisplayQuote.setVisibility (View.VISIBLE);
-
-                        } else if (TimeOfDay >= 16 && TimeOfDay < 24) {
-                            greetings = "Good Evening,";
-                            DisplayName.setText (username.toUpperCase ());
-                            time.setText (greetings);
-                            time.setVisibility (View.VISIBLE);
-                            DisplayName.setVisibility (View.VISIBLE);
-                            DisplayQuote.setVisibility (View.VISIBLE);
-                        }
+                        String Welcome="Welcome,";
+                        String date= java.text.DateFormat.getDateInstance (DateFormat.LONG).format (calendar.getTime ());
+                        DisplayName.setText (String.format ("%s%s", Welcome, username));
+                        Date.setText (date);
+                        DisplayName.setVisibility (View.VISIBLE);
+                        Date.setVisibility (View.VISIBLE);
 
                     }
                 }
