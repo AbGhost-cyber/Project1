@@ -73,14 +73,16 @@ public class SignupActivity extends AppCompatActivity {
                 mpassword.setError("password must be >=6 characters");
                 return;
             }
-            progressBar.setVisibility(View.VISIBLE);
-
+            //checks for internet connection
             if(!HomeFragment.HasActiveNetworkConnection (this)){
+                progressBar.setVisibility(View.VISIBLE);
+            }
+            else{
                 StyleableToast.makeText (this,
                         "no network connection",R.style.myToast1).show ();
-                progressBar.setVisibility (View.INVISIBLE);
+                progressBar.setVisibility (View.GONE);
+                return;
             }
-
 
             fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 progressBar.setVisibility(View.GONE);

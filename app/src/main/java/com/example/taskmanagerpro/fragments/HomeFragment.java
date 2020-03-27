@@ -84,13 +84,20 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot d : dataSnapshot.getChildren ()) {
-                        String username = "" + d.child ("username").getValue ();
-                        String Welcome="Welcome,";
-                        String date= java.text.DateFormat.getDateInstance (DateFormat.LONG).format (calendar.getTime ());
-                        DisplayName.setText (String.format ("%s%s", Welcome, username));
-                        Date.setText (date);
-                        DisplayName.setVisibility (View.VISIBLE);
-                        Date.setVisibility (View.VISIBLE);
+                        if(!HasActiveNetworkConnection (getContext ())) {
+
+                            String username = "" + d.child ("username").getValue ();
+                            String Welcome = "Welcome,";
+                            String date = java.text.DateFormat.getDateInstance (DateFormat.LONG).format (calendar.getTime ());
+                            DisplayName.setText (String.format ("%s%s", Welcome, username));
+                            Date.setText (date);
+                            DisplayName.setVisibility (View.VISIBLE);
+                            Date.setVisibility (View.VISIBLE);
+                        }
+                        else{
+                                StyleableToast.makeText (Objects.requireNonNull (getContext ()),
+                                        "no network connection",R.style.myToast1).show ();
+                            }
 
                     }
                 }
@@ -101,11 +108,6 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-        }
-
-        if(!HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))){
-            StyleableToast.makeText (Objects.requireNonNull (getContext ()),
-                    "no network connection",R.style.myToast1).show ();
         }
 
 
@@ -228,7 +230,7 @@ public class HomeFragment extends Fragment {
                     .NET_CAPABILITY_VALIDATED);
         }
 
-        return true;
+        return false;
     }
 
     @Override

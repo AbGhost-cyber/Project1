@@ -63,13 +63,17 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            progressBar.setVisibility(View.VISIBLE);
-
+             // checks for internet connection
             if(!HomeFragment.HasActiveNetworkConnection (this)){
+                progressBar.setVisibility(View.VISIBLE);
+            }
+            else{
                 StyleableToast.makeText (this,
                         "no network connection",R.style.myToast1).show ();
-                progressBar.setVisibility (View.INVISIBLE);
+                progressBar.setVisibility (View.GONE);
+                return;
             }
+
 
             fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -80,7 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                     LoginActivity.this.finish();
 
 
-                } else {
+                }
+                else {
                     StyleableToast.makeText (LoginActivity.this,task.getException().getMessage(),R.style.myToast1).show();
                     progressBar.setVisibility(View.GONE);
                 }
