@@ -8,7 +8,7 @@
     android:paddingTop="18dp"
     android:paddingRight="18dp"
     android:paddingBottom="18dp"
-    tools:context=".SignupActivity">
+    tools:context=".ui.SignupActivity">
 
 
     <ScrollView
@@ -75,7 +75,7 @@
                 android:layout_height="1dp"
                 android:background="#f9d7db" />
             <EditText
-                android:id="@+id/UID"
+                android:id="@+id/Username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -113,7 +113,7 @@
 
 
             <TextView
-                android:id="@+id/alreadyUse"
+                android:id="@+id/Login"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginTop="10dp"

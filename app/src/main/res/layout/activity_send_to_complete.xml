@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/SendToComplete"
-    tools:context=".SendToComplete"
+    tools:context=".ui.SendToComplete"
     android:background="@color/grey">
 
     <RelativeLayout

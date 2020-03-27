@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toolbar;
+
+import com.example.taskmanagerpro.R;
 
 import java.util.Objects;
 

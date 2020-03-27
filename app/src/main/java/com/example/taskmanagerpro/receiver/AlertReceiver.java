@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.receiver;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,6 +11,10 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+
+import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.ui.CreateTaskActivity;
+import com.example.taskmanagerpro.ui.SendToComplete;
 
 import java.util.Date;
 

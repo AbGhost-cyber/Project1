@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#F1EDED"
     android:orientation="vertical"
-    tools:context=".ProfileFragment">
+    tools:context=".fragments.ProfileFragment">
 
 
     <RelativeLayout
@@ -181,29 +181,6 @@
                 android:fontFamily="@font/averia_libre_bold"
                 android:padding="2dp"
                 android:text="Rate App"
-                android:textColor="@color/Black"
-                android:textSize="16sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ree5"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@id/ree4"
-            android:layout_marginTop="10dp"
-            android:background="@color/white">
-
-            <TextView
-                android:id="@+id/logOutApp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="14dp"
-                android:drawableStart="@drawable/logout"
-                android:drawablePadding="14dp"
-                android:fontFamily="@font/averia_libre_bold"
-                android:padding="2dp"
-                android:text="@string/logout_app"
                 android:textColor="@color/Black"
                 android:textSize="16sp" />
         </RelativeLayout>

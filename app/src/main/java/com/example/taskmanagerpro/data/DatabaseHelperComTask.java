@@ -1,13 +1,10 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.data;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.google.android.gms.common.internal.Constants;
-import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 public class DatabaseHelperComTask extends SQLiteOpenHelper {
     private static final String DB_NAME = "completedtask_database";

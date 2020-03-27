@@ -1,7 +1,6 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -20,6 +19,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.taskmanagerpro.data.CompletedTaskClass;
+import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.data.DatabaseHelperComTask;
+import com.example.taskmanagerpro.ui.SendToComplete;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;

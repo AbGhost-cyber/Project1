@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.data;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-@Database(entities = MyTask.class,version =5,exportSchema = false)
+@Database(entities = MyTask.class,version =6,exportSchema = false)
 public abstract class TaskDatabase extends RoomDatabase {
 
     private static TaskDatabase instance;
@@ -41,7 +41,7 @@ public abstract class TaskDatabase extends RoomDatabase {
 
     private static  class PopulateDbAsyncTask extends AsyncTask<Void,Void,Void>
     {
-        private  TaskDao taskDao;
+        private TaskDao taskDao;
 
         private  PopulateDbAsyncTask(TaskDatabase sb)
         {

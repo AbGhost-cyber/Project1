@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.data.USER;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -31,15 +33,15 @@ public class SignupActivity extends AppCompatActivity {
 
         mname=findViewById(R.id.username);
         mpassword=findViewById(R.id.pass);
-        mLoginButton=findViewById(R.id.alreadyUse);
+        mLoginButton=findViewById(R.id.Login);
         fAuth=FirebaseAuth.getInstance();
         progressBar=findViewById(R.id.progressBar);
         signup=findViewById(R.id.signupbutton);
-        username=findViewById(R.id.UID);
+        username=findViewById(R.id.Username);
 
         if(fAuth.getCurrentUser() !=null)
         {
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
 
@@ -104,7 +106,7 @@ public class SignupActivity extends AppCompatActivity {
 
         });
         mLoginButton.setOnClickListener (v -> {
-            Intent intent=new Intent (getApplicationContext (),LoginActivity.class);
+            Intent intent=new Intent (getApplicationContext (), LoginActivity.class);
             startActivity (intent);
             finish ();
         });

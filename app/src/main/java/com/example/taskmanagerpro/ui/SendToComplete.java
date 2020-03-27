@@ -1,19 +1,15 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.ui;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.taskmanagerpro.receiver.AlertReceiver;
+import com.example.taskmanagerpro.R;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 public class SendToComplete extends AppCompatActivity {
@@ -70,7 +66,7 @@ public class SendToComplete extends AppCompatActivity {
     }
     //create method that sends data to mainActivity, then CompletedTaskfragment takes it from there
     private void sendToComplete() {
-        Intent data = new Intent (this,MainActivity.class);
+        Intent data = new Intent (this, MainActivity.class);
         data.putExtra (TITLE, title);
        data.putExtra (TIME, time);
         startActivity (data);

@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.fragments;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -21,9 +21,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.ui.ActivityAbout;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +39,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 
 public class ProfileFragment extends Fragment {
@@ -70,7 +73,6 @@ public class ProfileFragment extends Fragment {
         Share = v.findViewById (R.id.shareAndSend);
         upload = v.findViewById (R.id.saveUpload);
         sendFeedback=v.findViewById (R.id.sendFeedback);
-        TextView logoutTV = v.findViewById (R.id.logOutApp);
         aboutAppTv = v.findViewById (R.id.about);
         mStorageRef = FirebaseStorage.getInstance ().getReference ("uploads");
 
@@ -139,14 +141,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-        //log out function
-        logoutTV.setOnClickListener (v1 -> {
-            DialogFragment dialogFragment = new LogoutDialogFragment ();
-            dialogFragment.setCancelable (false);
-            dialogFragment.show (getActivity ().getSupportFragmentManager (), "log out");
-        });
-
         //share function
         Share.setOnClickListener (v14 -> {
             //TODO remember to replace the google play with website link
@@ -190,7 +184,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private String getFileExtension(Uri uri) {
-        ContentResolver resolver = getActivity ().getContentResolver ();
+        ContentResolver resolver = Objects.requireNonNull (getActivity ()).getContentResolver ();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton ();
         return mimeTypeMap.getExtensionFromMimeType (resolver.getType (uri));
     }

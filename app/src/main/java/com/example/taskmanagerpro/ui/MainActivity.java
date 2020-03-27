@@ -1,13 +1,15 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.MenuItem;
 
+import com.example.taskmanagerpro.fragments.CompletedTaskFragment;
+import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.fragments.HomeFragment;
+import com.example.taskmanagerpro.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import hotchemi.android.rate.AppRate;
@@ -30,14 +32,15 @@ public class MainActivity extends AppCompatActivity {
 
         AppRate.showRateDialogIfMeetsConditions (this);
 
+        //this checks to see if there's any savedInstance,if null, then it replaces the fragment container
+        // with home fragment.
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,
-                    new HomeFragment()).commit();
+                    new HomeFragment ()).commit();
         }
-        //this checks to see if there's any savedInstance,if null, then it replaces the fragment container
-        // with home fragment..
 
     }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener=
             menuItem -> {
@@ -49,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.completed:
-                        selectedfragment=new CompletedTaskFragment();
+                        selectedfragment=new CompletedTaskFragment ();
                         break;
                     case R.id.profile:
-                        selectedfragment=new ProfileFragment();
+                        selectedfragment=new ProfileFragment ();
                         break;
                 }
                 if (selectedfragment != null) {

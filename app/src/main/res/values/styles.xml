@@ -42,12 +42,4 @@
         <item name="length">LONG</item>
         <item name="cornerRadius">3dp</item>
     </style>
-    <style name="ToastExitApp">
-        <item name="colorBackground">@color/Black</item>
-        <item name="textColor">@color/white</item>
-        <item name="fontFamily">@font/amaranth_bold</item>
-        <item name="iconRight">@drawable/ic_exit</item>
-        <item name="length">LONG</item>
-        <item name="cornerRadius">3dp</item>
-    </style>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

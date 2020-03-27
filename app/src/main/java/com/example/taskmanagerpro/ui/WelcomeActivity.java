@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.taskmanagerpro.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -22,7 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Animation myanim= AnimationUtils.loadAnimation(this,R.anim.mytransition);
         tv.startAnimation(myanim);
         iv.startAnimation(myanim);
-        final Intent myIntent=new Intent(this,SignupActivity.class);
+        final Intent myIntent=new Intent(this, SignupActivity.class);
         Thread myThread=new Thread()
         {
             public void run() {

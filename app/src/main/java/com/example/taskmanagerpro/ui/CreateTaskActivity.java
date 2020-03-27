@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.ui;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.taskmanagerpro.receiver.AlertReceiver;
+import com.example.taskmanagerpro.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -187,7 +190,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                 AlertReceiver.getID (),
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // start alarm is the selected time is not before the current time
+        // start alarm if the selected time is not before the current time
         if (!targetCal.before (Calendar.getInstance ())) {
             if (alarmManager != null) {
                 alarmManager.setExact (AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis (), pendingIntent);

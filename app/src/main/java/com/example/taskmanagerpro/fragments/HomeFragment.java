@@ -1,8 +1,12 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +24,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanagerpro.ui.CreateTaskActivity;
+import com.example.taskmanagerpro.data.MyTask;
+import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.data.TaskViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +42,7 @@ import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -93,6 +102,11 @@ public class HomeFragment extends Fragment {
             });
 
         }
+
+        if(HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))){
+            StyleableToast.makeText (Objects.requireNonNull (getContext ()),"Network not available",R.style.myToast1).show ();
+        }
+
 
         //search bar algorithm
         searchView.setQueryHint ("Search");
@@ -197,6 +211,22 @@ public class HomeFragment extends Fragment {
         });
         return v;
 
+    }
+
+    //internet check
+    public static boolean HasActiveNetworkConnection(Context context) {
+
+        final ConnectivityManager manager=(ConnectivityManager)context.getSystemService (Context.CONNECTIVITY_SERVICE);
+        assert manager != null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            final Network network=manager.getActiveNetwork ();
+            final NetworkCapabilities capabilities=manager.getNetworkCapabilities (network);
+
+            return capabilities !=null && capabilities.hasCapability (NetworkCapabilities
+                    .NET_CAPABILITY_VALIDATED);
+        }
+
+        return false;
     }
 
     @Override

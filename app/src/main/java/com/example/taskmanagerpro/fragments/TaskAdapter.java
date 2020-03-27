@@ -1,4 +1,4 @@
-package com.example.taskmanagerpro;
+package com.example.taskmanagerpro.fragments;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.taskmanagerpro.ui.CreateTaskActivity;
+import com.example.taskmanagerpro.data.MyTask;
+import com.example.taskmanagerpro.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
