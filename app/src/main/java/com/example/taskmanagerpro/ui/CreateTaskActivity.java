@@ -144,7 +144,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
             time=TaskTime.getText ().toString ();
         }
         else{
-            time= dateSelected + "," + currentTime;
+            time= String.format ("%s,%s", dateSelected, currentTime);
         }
 
 
@@ -178,7 +178,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         Intent intent = new Intent (this, AlertReceiver.class);
         String title = titleTask.getText ().toString ();
         String des = Description.getText ().toString ();
-        String time = dateSelected + "," + currentTime;
+        String time = String.format ("%s,%s", dateSelected, currentTime);
 
 
         intent.putExtra (EXTRA_TITLE, title);
@@ -236,7 +236,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
         currentTime = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (selectedDate.getTime ());
 
         //set time on textview
-        String time = dateSelected + "," + currentTime;
+        String time = String.format ("%s,%s", dateSelected, currentTime);
         TaskTime.setText (time);
 
     // send notification on selected time/date

@@ -1,6 +1,5 @@
 package com.example.taskmanagerpro.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,9 +16,6 @@ import android.widget.TextView;
 
 import com.example.taskmanagerpro.R;
 import com.example.taskmanagerpro.fragments.HomeFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
@@ -64,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
              // checks for internet connection
-            if(!HomeFragment.HasActiveNetworkConnection (this)){
+            if(HomeFragment.HasActiveNetworkConnection (this)){
                 progressBar.setVisibility(View.VISIBLE);
             }
             else{

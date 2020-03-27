@@ -50,10 +50,13 @@ public abstract class TaskDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids)
         {
-            Calendar c = Calendar.getInstance ();
-            String time= DateFormat.getTimeInstance (DateFormat.SHORT).format (c.getTime ());
-            taskDao.insert(new MyTask("Doing Something",
-                "Doing something i like",time));
+            Calendar todaysDate = Calendar.getInstance ();
+            String date=java.text.DateFormat.getDateInstance
+                    (java.text.DateFormat.SHORT).format (todaysDate.getTime ());
+            String time=java.text.DateFormat.getTimeInstance
+                    (java.text.DateFormat.SHORT).format (todaysDate.getTime ());
+            taskDao.insert(new MyTask("stay up-to-date",
+                "with task manager pro", String.format ("%s,%s", date, time)));
 
             return null;
         }

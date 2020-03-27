@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot d : dataSnapshot.getChildren ()) {
-                        if(!HasActiveNetworkConnection (getContext ())) {
+                        if(HasActiveNetworkConnection (getContext ())) {
 
                             String username = "" + d.child ("username").getValue ();
                             String Welcome = "Welcome,";
@@ -226,11 +226,11 @@ public class HomeFragment extends Fragment {
             final Network network=manager.getActiveNetwork ();
             final NetworkCapabilities capabilities=manager.getNetworkCapabilities (network);
 
-            return capabilities == null || !capabilities.hasCapability (NetworkCapabilities
+            return capabilities != null && capabilities.hasCapability (NetworkCapabilities
                     .NET_CAPABILITY_VALIDATED);
         }
 
-        return false;
+        return true;
     }
 
     @Override

@@ -74,7 +74,7 @@ public class SignupActivity extends AppCompatActivity {
                 return;
             }
             //checks for internet connection
-            if(!HomeFragment.HasActiveNetworkConnection (this)){
+            if(HomeFragment.HasActiveNetworkConnection (this)){
                 progressBar.setVisibility(View.VISIBLE);
             }
             else{
