@@ -103,9 +103,11 @@ public class HomeFragment extends Fragment {
 
         }
 
-        if(HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))){
-            StyleableToast.makeText (Objects.requireNonNull (getContext ()),"Network not available",R.style.myToast1).show ();
+        if(!HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))){
+            StyleableToast.makeText (Objects.requireNonNull (getContext ()),
+                    "no network connection",R.style.myToast1).show ();
         }
+
 
 
         //search bar algorithm
@@ -222,11 +224,11 @@ public class HomeFragment extends Fragment {
             final Network network=manager.getActiveNetwork ();
             final NetworkCapabilities capabilities=manager.getNetworkCapabilities (network);
 
-            return capabilities !=null && capabilities.hasCapability (NetworkCapabilities
+            return capabilities == null || !capabilities.hasCapability (NetworkCapabilities
                     .NET_CAPABILITY_VALIDATED);
         }
 
-        return false;
+        return true;
     }
 
     @Override

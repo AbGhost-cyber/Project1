@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.fragments.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -64,32 +65,32 @@ public class LoginActivity extends AppCompatActivity {
 
             progressBar.setVisibility(View.VISIBLE);
 
-            fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        progressBar.setVisibility(View.GONE);
-                        Intent myintent = new Intent(LoginActivity.this, MainActivity.class);
-                        ToastMessage ("Successfully login");
-                        LoginActivity.this.startActivity(myintent);
-                        LoginActivity.this.finish();
+            if(!HomeFragment.HasActiveNetworkConnection (this)){
+                StyleableToast.makeText (this,
+                        "no network connection",R.style.myToast1).show ();
+                progressBar.setVisibility (View.INVISIBLE);
+            }
+
+            fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    Intent myintent = new Intent(LoginActivity.this, MainActivity.class);
+                    ToastMessage ("Successfully login");
+                    LoginActivity.this.startActivity(myintent);
+                    LoginActivity.this.finish();
 
 
-                    } else {
-                        progressBar.setVisibility(View.GONE);
-                        StyleableToast.makeText (LoginActivity.this,task.getException().getMessage(),R.style.myToast1).show();
-                    }
+                } else {
+                    StyleableToast.makeText (LoginActivity.this,task.getException().getMessage(),R.style.myToast1).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             });
 
         });
 
-        mSignup.setOnClickListener(new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                LoginActivity.this.startActivity (new Intent (LoginActivity.this.getApplicationContext (), SignupActivity.class));
-                finish ();
-            }
+        mSignup.setOnClickListener(v -> {
+            LoginActivity.this.startActivity (new Intent (LoginActivity.this.getApplicationContext (), SignupActivity.class));
+            finish ();
         });
 
         forgotPassword.setOnClickListener (v -> {

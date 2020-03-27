@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.taskmanagerpro.R;
 import com.example.taskmanagerpro.data.USER;
+import com.example.taskmanagerpro.fragments.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -72,8 +73,13 @@ public class SignupActivity extends AppCompatActivity {
                 mpassword.setError("password must be >=6 characters");
                 return;
             }
-
             progressBar.setVisibility(View.VISIBLE);
+
+            if(!HomeFragment.HasActiveNetworkConnection (this)){
+                StyleableToast.makeText (this,
+                        "no network connection",R.style.myToast1).show ();
+                progressBar.setVisibility (View.INVISIBLE);
+            }
 
 
             fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
