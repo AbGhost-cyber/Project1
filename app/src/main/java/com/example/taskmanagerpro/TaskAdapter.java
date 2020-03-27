@@ -53,14 +53,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
             if (CreateTaskActivity.isTomorrow (calendar.getTime ())) {
                 text = "tomorrow, ";
                 String format = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (calendar.getTime ());
-                String Time = text + format;
+                String Time = String.format ("%s%s", text, format);
                 holder.Date.setText (Time);
             }
             //check if the date is today
             else if (CreateTaskActivity.isToday (calendar.getTime ())) {
                 text = "today, ";
                 String format = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (calendar.getTime ());
-                String Time = text + format;
+                String Time = String.format ("%s%s", text, format);
                 holder.Date.setText (Time);
             } else {
                 holder.Date.setText (currentTask.getTaskTime ());
