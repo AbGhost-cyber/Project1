@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot d : dataSnapshot.getChildren ()) {
-                        if(HasActiveNetworkConnection (getContext ())) {
+                        if(HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))) {
 
                             String username = "" + d.child ("username").getValue ();
                             String Welcome = "Welcome,";

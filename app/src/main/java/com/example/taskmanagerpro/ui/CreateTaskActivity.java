@@ -14,11 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskmanagerpro.receiver.AlertReceiver;
 import com.example.taskmanagerpro.R;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,21 +40,22 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
     private TextView TaskTime;
     public int Mday, Mmonth, Myear, Mhour, Mminute;
     Calendar selectedDate;
-
+    Button showPicker,canceltask,saveTask;
 
     String dateSelected, currentTime;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_create_task);
+
 
         titleTask = findViewById (R.id.title_Task);
         Description = findViewById (R.id.task_Des);
         TaskTime = findViewById (R.id.task_time);
-        Button saveTask = findViewById (R.id.SaveTask);
-        Button canceltask = findViewById (R.id.Cancel_Task);
-        Button showPicker = findViewById (R.id.TimePicker);
+         saveTask = findViewById (R.id.SaveTask);
+         canceltask = findViewById (R.id.Cancel_Task);
+         showPicker = findViewById (R.id.TimePicker);
 
         Intent intent = getIntent ();
 
@@ -79,23 +82,21 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                 String input = TaskTime.getText ().toString ();
 
                 //create an object of simple date format
-                SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yy,hh:mm a", Locale.ENGLISH);
+                SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yy,hh:mm aa",Locale.getDefault ());
                 try {
                     //format the text to a date
                     Date date = sdf.parse (input);
-                    Calendar calendar = Calendar.getInstance ();
+                   final Calendar calendar = Calendar.getInstance ();
                     assert date != null;
 
-                        //set the date
-                        calendar.setTime (date);
-                        Myear = calendar.get (Calendar.YEAR);
-                        Mmonth = calendar.get (Calendar.MONTH);
-                        Mday = calendar.get (Calendar.DAY_OF_MONTH);
-                        Mhour=calendar.get (Calendar.HOUR_OF_DAY);
-                        Mminute=calendar.get (Calendar.MINUTE);
 
-
-
+                    //set the date
+                    calendar.setTime (date);
+                    Myear = calendar.get (Calendar.YEAR);
+                    Mmonth = calendar.get (Calendar.MONTH);
+                    Mday = calendar.get (Calendar.DAY_OF_MONTH);
+                    Mhour = calendar.get (Calendar.HOUR_OF_DAY);
+                    Mminute = calendar.get (Calendar.MINUTE);
 
 
                 } catch (ParseException e) {
@@ -106,8 +107,8 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                 Myear = instance.get (Calendar.YEAR);
                 Mmonth = instance.get (Calendar.MONTH);
                 Mday = instance.get (Calendar.DAY_OF_MONTH);
-                Mhour=instance.get (Calendar.HOUR_OF_DAY);
-                Mminute=instance.get(Calendar.MINUTE);
+                Mhour = instance.get (Calendar.HOUR_OF_DAY);
+                Mminute = instance.get (Calendar.MINUTE);
 
             }
 
@@ -131,8 +132,8 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
             Intent a = new Intent (CreateTaskActivity.this, MainActivity.class);
             CreateTaskActivity.this.startActivity (a);
         });
-    }
 
+    }
 
     private void SaveCreatedTask(Intent intent) {
         String title = titleTask.getText ().toString ();
@@ -213,14 +214,13 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
         selectedDate = c;
 
-        dateSelected = java.text.DateFormat.getDateInstance (java.text.DateFormat.SHORT).format (c.getTime ());
+        dateSelected = java.text.DateFormat.getDateInstance (java.text.DateFormat.SHORT).format (selectedDate.getTime ());
 
 
 
         TimePickerDialog timePickerDialog = new TimePickerDialog (CreateTaskActivity.this,
                 CreateTaskActivity.this, Mhour,
-                Mminute, android.text.
-                format.DateFormat.is24HourFormat (this));
+                Mminute, false);
 
         timePickerDialog.show ();
 
@@ -232,7 +232,6 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
         selectedDate.set (c.get (Calendar.YEAR), selectedDate.get (Calendar.MONTH),
                 selectedDate.get (Calendar.DAY_OF_MONTH), hourOfDay, minute);
-
         currentTime = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (selectedDate.getTime ());
 
         //set time on textview
