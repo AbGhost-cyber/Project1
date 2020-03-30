@@ -79,7 +79,7 @@ public class ProfileFragment extends Fragment {
 
         upload.setOnClickListener (v12 -> {
             if (mUpload != null && mUpload.isInProgress ()) {
-                StyleableToast.makeText (getContext (), "upload is in progress", R.style.myToast1);
+                StyleableToast.makeText (Objects.requireNonNull (getContext ()), "upload is in progress", R.style.myToast1);
             } else {
                 UploadImage (this.getContext ());//method that allows user to upload selected image
                 upload.setVisibility (View.GONE);

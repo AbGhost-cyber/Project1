@@ -24,7 +24,6 @@ public class SignupActivity extends AppCompatActivity {
     Button signup;
     TextView mLoginButton;
     FirebaseAuth fAuth;
-    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +35,9 @@ public class SignupActivity extends AppCompatActivity {
         mpassword=findViewById(R.id.pass);
         mLoginButton=findViewById(R.id.Login);
         fAuth=FirebaseAuth.getInstance();
-        progressBar=findViewById(R.id.progressBar);
         signup=findViewById(R.id.signupbutton);
         username=findViewById(R.id.Username);
+        LoadingProgressDialog progressDialog=new LoadingProgressDialog (this);
 
         if(fAuth.getCurrentUser() !=null)
         {
@@ -75,17 +74,17 @@ public class SignupActivity extends AppCompatActivity {
             }
             //checks for internet connection
             if(HomeFragment.HasActiveNetworkConnection (this)){
-                progressBar.setVisibility(View.VISIBLE);
+              progressDialog.startAlertDialog ();
             }
             else{
                 StyleableToast.makeText (this,
                         "no network connection",R.style.myToast1).show ();
-                progressBar.setVisibility (View.GONE);
+               progressDialog.dismissDialog ();
                 return;
             }
 
             fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-                progressBar.setVisibility(View.GONE);
+                progressDialog.dismissDialog ();
                 if (task.isSuccessful()) {
                     USER user=new USER(userName,email,image)
                     {
@@ -94,20 +93,15 @@ public class SignupActivity extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference("Users")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(user).addOnCompleteListener(task1 -> {
-                                progressBar.setVisibility(View.GONE);
                                 if(task1.isSuccessful()){
                                     StyleableToast.makeText (SignupActivity.this,"User Created",R.style.myToast2).show ();
                                 }
-                                else{
-                                    StyleableToast.makeText (SignupActivity.this,"an Error Occurred",R.style.myToast1).show ();
-                                }
-
                             });
 
                     SignupActivity.this.startActivity(new Intent(SignupActivity.this.getApplicationContext(), MainActivity.class));
                     SignupActivity.this.finish();
                 } else {
-                    progressBar.setVisibility(View.GONE);
+                    progressDialog.dismissDialog ();
                     StyleableToast.makeText (SignupActivity.this,task.getException().getMessage(),R.style.myToast1).show ();
                 }
             });

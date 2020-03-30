@@ -3,11 +3,16 @@ package com.example.taskmanagerpro.ui;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
     Button Login;
     TextView mSignup,forgotPassword;
     FirebaseAuth fAuth;
-    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +39,11 @@ public class LoginActivity extends AppCompatActivity {
         mpassword=findViewById(R.id.pass);
         mSignup=findViewById(R.id.signupText);
         fAuth= FirebaseAuth.getInstance();
-        progressBar=findViewById(R.id.progressBar);
         Login=findViewById(R.id.LoginButton);
         forgotPassword=findViewById (R.id.forgotPass);
+
+        LoadingProgressDialog progressDialog=new LoadingProgressDialog (this);
+
         Login.setOnClickListener(v -> {
             String email, password;
             email = mname.getText().toString().trim();
@@ -61,19 +67,22 @@ public class LoginActivity extends AppCompatActivity {
 
              // checks for internet connection
             if(HomeFragment.HasActiveNetworkConnection (this)){
-                progressBar.setVisibility(View.VISIBLE);
+
+                //progressBar.setVisibility(View.VISIBLE);
+                progressDialog.startAlertDialog ();
             }
             else{
                 StyleableToast.makeText (this,
                         "no network connection",R.style.myToast1).show ();
-                progressBar.setVisibility (View.GONE);
+                //progressBar.setVisibility (View.GONE);
+                progressDialog.dismissDialog ();
                 return;
             }
 
 
             fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
+                    progressDialog.dismissDialog ();
                     Intent myintent = new Intent(LoginActivity.this, MainActivity.class);
                     ToastMessage ("Successfully login");
                     LoginActivity.this.startActivity(myintent);
@@ -83,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
                     StyleableToast.makeText (LoginActivity.this,task.getException().getMessage(),R.style.myToast1).show();
-                    progressBar.setVisibility(View.GONE);
+                    progressDialog.dismissDialog ();
                 }
             });
 
@@ -110,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
         layout.addView (editTextEmail);
         layout.setPadding (10,10,10,10);
         editTextEmail.setMinEms (17);
+        LoadingProgressDialog progressDialog=new LoadingProgressDialog (this);
 
         builder.setView (layout);
         builder.setCancelable (false);
@@ -117,34 +127,39 @@ public class LoginActivity extends AppCompatActivity {
         builder.setPositiveButton ("Recover", (dialog, which) -> {
             String email=editTextEmail.getText ().toString ().trim ();
             if(TextUtils.isEmpty (email)){
-                StyleableToast.makeText (getApplicationContext (),"please input your email",R.style.myToast1);
+                StyleableToast.makeText (getApplicationContext (),"please input your email",R.style.myToast1).show ();
                 return;
             }
-            beginPasswordRecovery(email);
-            progressBar.setVisibility (View.VISIBLE);
+            if(HomeFragment.HasActiveNetworkConnection (this)){
+                progressDialog.startAlertDialog ();
+                beginPasswordRecovery(email,progressDialog);
+
+
+
+            }
+            else{
+                StyleableToast.makeText (this,
+                        "no network connection",R.style.myToast1).show ();
+                progressDialog.dismissDialog ();
+            }
         });
 
         builder.setNegativeButton ("Cancel", (dialog, which) -> {
             dialog.dismiss ();
-            progressBar.setVisibility (View.INVISIBLE);
         });
         builder.create ().show ();
 
     }
 
-    private void beginPasswordRecovery(String email) {
+    private void beginPasswordRecovery(String email,LoadingProgressDialog dialog) {
         fAuth.sendPasswordResetEmail (email).addOnCompleteListener (task -> {
             if(task.isSuccessful ()){
                 ToastMessage ("please check your email, a link has been sent");
-            progressBar.setVisibility (View.INVISIBLE);
-            }
-            else{
-                StyleableToast.makeText (this,"some error occurred",R.style.myToast1).show ();
             }
         }).addOnFailureListener (e -> {
             StyleableToast.makeText (this,e.getMessage (),R.style.myToast1).show ();
+            dialog.dismissDialog ();
         });
-        progressBar.setVisibility (View.INVISIBLE);
     }
 
     private void ToastMessage(String Message){

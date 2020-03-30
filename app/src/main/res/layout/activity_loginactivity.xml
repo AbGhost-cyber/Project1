@@ -21,20 +21,30 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="20dp"
-                android:padding="16dp"
-                android:src="@drawable/mylogo" />
+                android:padding="10dp"
+                android:src="@drawable/logo"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task manager pro"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/amaranth_bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-23dp"/>
 
 
             <EditText
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="90dp"
                 android:background="@android:color/transparent"
                 android:drawableStart="@drawable/ic_email_black_24dp"
                 android:drawablePadding="12dp"
@@ -102,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/amaranth_bold"
-                    android:text="New here?  Sign up"
+                    android:text="@string/new_here_sign_up"
                     android:textAlignment="center"
                     android:textColor="@color/green"
                     android:textSize="17sp" />
@@ -119,13 +129,6 @@
                     android:textColor="#F70505"
                     android:textSize="17sp"
                    android:layout_alignParentEnd="true"/>
-
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="240dp"
-                    android:layout_height="120dp"
-                    android:layout_centerInParent="true"
-                    android:visibility="invisible" />
 
             </RelativeLayout>
 

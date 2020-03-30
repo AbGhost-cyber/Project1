@@ -15,7 +15,7 @@
             android:layout_width="180dp"
             android:layout_height="180dp"
             android:id="@+id/LOGO"
-            android:background="@drawable/mylogo"
+            android:background="@drawable/logo"
             android:layout_gravity="center"/>
 
         <TextView

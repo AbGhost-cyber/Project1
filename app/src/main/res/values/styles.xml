@@ -42,4 +42,10 @@
         <item name="length">LONG</item>
         <item name="cornerRadius">3dp</item>
     </style>
+
+    <style name="ProgressBar"
+        parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/green</item>
+    </style>
+
 </resources>

@@ -84,20 +84,24 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot d : dataSnapshot.getChildren ()) {
-                        if(HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))) {
+                        try {
+                            if(HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))) {
 
-                            String username = "" + d.child ("username").getValue ();
-                            String Welcome = "Welcome,";
-                            String date = java.text.DateFormat.getDateInstance (DateFormat.LONG).format (calendar.getTime ());
-                            DisplayName.setText (String.format ("%s%s", Welcome, username));
-                            Date.setText (date);
-                            DisplayName.setVisibility (View.VISIBLE);
-                            Date.setVisibility (View.VISIBLE);
-                        }
-                        else{
-                                StyleableToast.makeText (Objects.requireNonNull (getContext ()),
-                                        "no network connection",R.style.myToast1).show ();
+                                String username = "" + d.child ("username").getValue ();
+                                String Welcome = "Welcome,";
+                                String date = DateFormat.getDateInstance (DateFormat.LONG).format (calendar.getTime ());
+                                DisplayName.setText (String.format ("%s%s", Welcome, username));
+                                Date.setText (date);
+                                DisplayName.setVisibility (View.VISIBLE);
+                                Date.setVisibility (View.VISIBLE);
                             }
+                            else{
+                                    StyleableToast.makeText (Objects.requireNonNull (getContext ()),
+                                            "no network connection",R.style.myToast1).show ();
+                                }
+                        } catch (Exception e) {
+                            e.printStackTrace ();
+                        }
 
                     }
                 }
