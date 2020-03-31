@@ -107,9 +107,9 @@
                 android:drawableStart="@drawable/work"
                 android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
                 android:drawablePadding="15dp"
-                android:fontFamily="@font/averia_libre_bold"
+                android:fontFamily="@font/open_sans"
                 android:padding="2dp"
-                android:text="About App"
+                android:text="@string/about_app"
                 android:textColor="@color/Black"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -131,9 +131,9 @@
                 android:drawableStart="@drawable/loveletter"
                 android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
                 android:drawablePadding="13dp"
-                android:fontFamily="@font/averia_libre_bold"
+                android:fontFamily="@font/open_sans"
                 android:padding="2dp"
-                android:text="Tell a friend"
+                android:text="@string/tell_a_friend"
                 android:textColor="@color/Black"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -155,9 +155,9 @@
                 android:drawableStart="@drawable/heart"
                 android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
                 android:drawablePadding="14dp"
-                android:fontFamily="@font/averia_libre_bold"
+                android:fontFamily="@font/open_sans"
                 android:padding="2dp"
-                android:text="Send Feeback"
+                android:text="@string/send_feeback"
                 android:textColor="@color/Black"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -178,9 +178,9 @@
                 android:layout_marginStart="14dp"
                 android:drawableStart="@drawable/like"
                 android:drawablePadding="14dp"
-                android:fontFamily="@font/averia_libre_bold"
+                android:fontFamily="@font/open_sans"
                 android:padding="2dp"
-                android:text="Rate App"
+                android:text="@string/rate_app"
                 android:textColor="@color/Black"
                 android:textSize="16sp" />
         </RelativeLayout>

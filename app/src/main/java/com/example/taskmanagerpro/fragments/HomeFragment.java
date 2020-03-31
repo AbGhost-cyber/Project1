@@ -24,10 +24,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.taskmanagerpro.ui.CreateTaskActivity;
-import com.example.taskmanagerpro.data.MyTask;
 import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.data.MyTask;
 import com.example.taskmanagerpro.data.TaskViewModel;
+import com.example.taskmanagerpro.ui.CreateTaskActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
     private TaskViewModel taskViewModel;
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
-    private TextView DisplayName,Date;
+    private TextView DisplayName, Date;
     private TextView endpage;
     private Calendar calendar;
 
@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
         FirebaseUser user = firebaseAuth.getCurrentUser ();
         calendar = Calendar.getInstance ();
         endpage = v.findViewById (R.id.endPage);
-         DisplayName= v.findViewById (R.id.welcomeName);
+        DisplayName = v.findViewById (R.id.welcomeName);
 
 
         //gets user's username from database and display in accordance with the current time
@@ -85,7 +85,7 @@ public class HomeFragment extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot d : dataSnapshot.getChildren ()) {
                         try {
-                            if(HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))) {
+                            if (HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))) {
 
                                 String username = "" + d.child ("username").getValue ();
                                 String Welcome = "Welcome,";
@@ -94,11 +94,10 @@ public class HomeFragment extends Fragment {
                                 Date.setText (date);
                                 DisplayName.setVisibility (View.VISIBLE);
                                 Date.setVisibility (View.VISIBLE);
+                            } else {
+                                StyleableToast.makeText (Objects.requireNonNull (getContext ()),
+                                        "no network connection", R.style.myToast1).show ();
                             }
-                            else{
-                                    StyleableToast.makeText (Objects.requireNonNull (getContext ()),
-                                            "no network connection",R.style.myToast1).show ();
-                                }
                         } catch (Exception e) {
                             e.printStackTrace ();
                         }
@@ -113,7 +112,6 @@ public class HomeFragment extends Fragment {
             });
 
         }
-
 
 
         //search bar algorithm
@@ -224,11 +222,11 @@ public class HomeFragment extends Fragment {
     //internet check
     public static boolean HasActiveNetworkConnection(Context context) {
 
-        final ConnectivityManager manager=(ConnectivityManager)context.getSystemService (Context.CONNECTIVITY_SERVICE);
+        final ConnectivityManager manager = (ConnectivityManager) context.getSystemService (Context.CONNECTIVITY_SERVICE);
         assert manager != null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            final Network network=manager.getActiveNetwork ();
-            final NetworkCapabilities capabilities=manager.getNetworkCapabilities (network);
+            final Network network = manager.getActiveNetwork ();
+            final NetworkCapabilities capabilities = manager.getNetworkCapabilities (network);
 
             return capabilities != null && capabilities.hasCapability (NetworkCapabilities
                     .NET_CAPABILITY_VALIDATED);
