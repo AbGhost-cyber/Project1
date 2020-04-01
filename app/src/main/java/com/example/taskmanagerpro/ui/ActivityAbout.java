@@ -22,7 +22,7 @@ public class ActivityAbout extends AppCompatActivity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.about_app);
         TextView textView=findViewById (R.id.paragraph);
-        String setParagraph="Task manager pro was created to help it's users organize their daily schedules, because we may forget our " +
+        String setParagraph="Task-it was created to help it's users organize their daily schedules, because we may forget our " +
                 " initial plan for a specific time, so Task manager pro helps the user to schedule a particular time and set a reminder  for it so that the user " +
                 " can be notified when the time reaches and also display a list of completed schedules.  Created by Abundance(RAY).";
         textView.setText (setParagraph);
@@ -32,7 +32,7 @@ public class ActivityAbout extends AppCompatActivity {
                 " To show the list of completed schedules/tasks, click on the com-task icon(a schedule is only completed when you're notified of the " +
                 "incoming schedule),you can choose to complete the task or cancel the alarm.";
         howToUse.setText (setHowToUse);
-        Objects.requireNonNull (getSupportActionBar ()).setTitle ("About Task Manager Pro");
+        Objects.requireNonNull (getSupportActionBar ()).setTitle ("About Task-it");
             getSupportActionBar ().setDisplayHomeAsUpEnabled (true);//add back button manually
     }
 

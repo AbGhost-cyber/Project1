@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,14 +32,19 @@ public class CompletedTaskFragment extends Fragment {
     private DatabaseHelperComTask db;
     private ArrayList<CompletedTaskClass> completedListItem;
     private ListView CompletedtaskList;
-    Intent intent;
+   private Intent intent;
+   TextView emptyList;
+   RelativeLayout emptyView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate (R.layout.compeleted_layout, container, false);
         getActivity ().setTitle ("Completed Task");
+        emptyList=v.findViewById (R.id.empty);
+        emptyView=v.findViewById (R.id.emptyView);
         CompletedtaskList = v.findViewById (R.id.CompletedListView);
+        CompletedtaskList.setEmptyView (emptyView);
         completedListItem = new ArrayList<> ();
 
         db = new DatabaseHelperComTask (getContext ());

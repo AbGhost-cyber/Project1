@@ -41,23 +41,14 @@ public abstract class TaskDatabase extends RoomDatabase {
 
     private static  class PopulateDbAsyncTask extends AsyncTask<Void,Void,Void>
     {
-        private TaskDao taskDao;
 
         private  PopulateDbAsyncTask(TaskDatabase sb)
         {
-            taskDao=sb.taskDao();
+            TaskDao taskDao = sb.taskDao ();
         }
         @Override
         protected Void doInBackground(Void... voids)
         {
-            Calendar todaysDate = Calendar.getInstance ();
-            String date=java.text.DateFormat.getDateInstance
-                    (java.text.DateFormat.SHORT).format (todaysDate.getTime ());
-            String time=java.text.DateFormat.getTimeInstance
-                    (java.text.DateFormat.SHORT).format (todaysDate.getTime ());
-            taskDao.insert(new MyTask("stay up-to-date",
-                "with task manager pro", String.format ("%s,%s", date, time)));
-
             return null;
         }
     }

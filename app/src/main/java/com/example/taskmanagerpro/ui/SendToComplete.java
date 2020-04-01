@@ -57,6 +57,10 @@ public class SendToComplete extends AppCompatActivity {
 
         builder.setPositiveButton ("Yes", (dialog, which) -> SendToComplete.this.sendToComplete ());
         builder.setNegativeButton ("No", (dialog, which) -> {
+            //stop ongoing alarm tone
+            AlertReceiver.taskRingtone.stop ();
+            //cancel vibration
+            AlertReceiver.vibrator.cancel ();
             dialog.dismiss ();
             finish ();
             StyleableToast.makeText (getApplicationContext (),"Cancelled",R.style.myToast1).show ();
@@ -64,8 +68,14 @@ public class SendToComplete extends AppCompatActivity {
         });
         builder.create ().show ();
     }
-    //create method that sends data to mainActivity, then CompletedTaskfragment takes it from there
+    //this method sends data to mainActivity, then CompletedTaskfragment takes it from there
     private void sendToComplete() {
+        //stop ongoing alarm tone
+        AlertReceiver.taskRingtone.stop ();
+
+        //cancel vibration
+        AlertReceiver.vibrator.cancel ();
+
         Intent data = new Intent (this, MainActivity.class);
         data.putExtra (TITLE, title);
        data.putExtra (TIME, time);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Task Manager Pro</string>
+    <string name="app_name">Task-it</string>
     <string name="Home">Home</string>
     <string name="ComTask">Com-Task</string>
     <string name="Profile">Profile</string>
@@ -11,7 +11,7 @@
     <string name="open_clock">Open Time</string>
     <string name="time_display">your time will display here</string>
     <string name="logout_app">Logout</string>
-    <string name="welcome_to_task_manager_pro">Welcome To Task Manager Pro</string>
+    <string name="welcome_to_task_manager_pro">Welcome To Task-it</string>
     <string name="hhhk">image</string>
     <string name="manage_your_time_like_never_before">Manage your time like never before</string>
     <string name="edit">Edit Your Task</string>
@@ -28,4 +28,10 @@
     <string name="send_feeback">Send Feeback</string>
     <string name="tell_a_friend">Tell a friend</string>
     <string name="about_app">About App</string>
+    <string name="emptyViewTip2">here</string>
+    <string name="emptyViewTip1">All tasks that you complete will show</string>
+    <string name="emptyViewTip">No Task Completed Yet</string>
+    <string name="tip2">to create a new task</string>
+    <string name="tip1">Smash the plus icon at the bottom right corner</string>
+    <string name="empty_rec_text">Zero Tasks</string>
 </resources>

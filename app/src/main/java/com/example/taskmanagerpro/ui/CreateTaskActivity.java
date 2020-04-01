@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.taskmanagerpro.R;
 import com.example.taskmanagerpro.receiver.AlertReceiver;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -156,6 +157,10 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
             Description.setError ("write a short description");
             return;
         }
+        if(TaskTime.getText ().length ()<=1){
+            StyleableToast.makeText (this,"please select a time",R.style.myToast1).show ();
+            return;
+        }
         Intent data = new Intent ();
         data.putExtra (EXTRA_TITLE, title);
         data.putExtra (EXTRA_DESC, description);
@@ -204,18 +209,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
     }
 
-//    private void cancelAlarmIfExist(Context context, int requestcode, Intent intent) {
-//        try{
-//            PendingIntent pendingIntent=PendingIntent.getBroadcast (context,requestcode,intent,
-//                    PendingIntent.FLAG_CANCEL_CURRENT);
-//            AlarmManager am=(AlarmManager)context.getSystemService (Context.ALARM_SERVICE);
-//            if (am != null) {
-//                am.cancel (pendingIntent);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace ();
-//        }
-//    }
+
 
 
     @Override

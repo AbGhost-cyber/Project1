@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,7 @@ public class HomeFragment extends Fragment {
     private TextView DisplayName, Date;
     private TextView endpage;
     private Calendar calendar;
+    private RelativeLayout emptyRecView;
 
 
     @Nullable
@@ -73,6 +75,7 @@ public class HomeFragment extends Fragment {
         calendar = Calendar.getInstance ();
         endpage = v.findViewById (R.id.endPage);
         DisplayName = v.findViewById (R.id.welcomeName);
+        emptyRecView=v.findViewById (R.id.emptyRecView);
 
 
         //gets user's username from database and display in accordance with the current time
@@ -147,10 +150,14 @@ public class HomeFragment extends Fragment {
 
         taskViewModel = ViewModelProviders.of (this).get (TaskViewModel.class);
         taskViewModel.getAllTasks ().observe (this, myTasks -> {
-            //check if the list containing our model object is null
-            //then display the "end of page" text if the list contains something
+            //check if the list containing our model class object is null
+            //if false,then display the "end of page" text if the list contains something
             if (myTasks.size () <= 0) {
+                emptyRecView.setVisibility (View.VISIBLE);
                 endpage.setVisibility (View.INVISIBLE);
+            }
+            else{
+                emptyRecView.setVisibility (View.GONE);
             }
             adapter.setTasks (myTasks);
             adapter.notifyDataSetChanged ();
