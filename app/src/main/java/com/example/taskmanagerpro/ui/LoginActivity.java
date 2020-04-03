@@ -68,14 +68,11 @@ public class LoginActivity extends AppCompatActivity {
              // checks for internet connection
             if(HomeFragment.HasActiveNetworkConnection (this)){
 
-                //progressBar.setVisibility(View.VISIBLE);
                 progressDialog.startAlertDialog ();
             }
             else{
                 StyleableToast.makeText (this,
                         "no network connection",R.style.myToast1).show ();
-                //progressBar.setVisibility (View.GONE);
-                progressDialog.dismissDialog ();
                 return;
             }
 
@@ -140,7 +137,6 @@ public class LoginActivity extends AppCompatActivity {
             else{
                 StyleableToast.makeText (this,
                         "no network connection",R.style.myToast1).show ();
-                progressDialog.dismissDialog ();
             }
         });
 

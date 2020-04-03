@@ -79,7 +79,7 @@ public class SignupActivity extends AppCompatActivity {
             else{
                 StyleableToast.makeText (this,
                         "no network connection",R.style.myToast1).show ();
-               progressDialog.dismissDialog ();
+               //progressDialog.dismissDialog ();
                 return;
             }
 

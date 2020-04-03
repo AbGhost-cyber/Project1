@@ -36,7 +36,7 @@
                 android:textStyle="bold"
                 android:textSize="19sp"
                 android:textColor="@color/Black"
-                android:fontFamily="@font/amaranth_bold"
+                android:fontFamily="sans-serif-black"
                 android:drawableEnd="@drawable/taskname_icon"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="-23dp"/>
@@ -129,7 +129,7 @@
                 android:layout_height="20dp"
                 android:textStyle="bold"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/open_sans"
+                android:fontFamily="sans-serif-black"
                 android:text="Already Registered?  Log in"
                 android:textAlignment="center"
                 android:textColor="@color/white"

@@ -16,7 +16,7 @@
             android:id="@+id/completedTasKTitle"
             android:textColor="@color/green"
             android:textSize="19sp"
-            android:fontFamily="@font/amaranth_bold"/>
+            android:fontFamily="sans-serif-black"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,6 +24,7 @@
             android:layout_marginTop="13dp"
             android:textColor="@color/yellow"
             android:text="12:23pm"
+            android:fontFamily="sans-serif-black"
             android:id="@+id/completedTasKTime"
             android:textStyle="bold"/>
     </RelativeLayout>

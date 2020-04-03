@@ -15,7 +15,7 @@
             android:id="@+id/emailName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/amaranth_bold"
+            android:fontFamily="sans-serif-black"
             android:text="Something@gmail.com"
             android:textColor="@color/Black"
             android:textSize="20sp" />
@@ -23,7 +23,7 @@
         <EditText
             android:id="@+id/Message"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:background="@android:color/transparent"
             android:ems="10"

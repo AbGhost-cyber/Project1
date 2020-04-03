@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:fontFamily="casual"
+            android:fontFamily="sans-serif-black"
             android:text="@string/welcome_to_task_manager_pro"
             android:drawableEnd="@drawable/taskname_icon"
             android:textColor="@color/white"

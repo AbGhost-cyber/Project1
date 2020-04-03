@@ -56,7 +56,7 @@ public class AlertReceiver extends BroadcastReceiver {
         if(vibrator!=null){
             vibrator.vibrate (2000);
         }
-        alert= RingtoneManager.getDefaultUri (RingtoneManager.TYPE_RINGTONE);
+        alert= RingtoneManager.getDefaultUri (RingtoneManager.TYPE_ALARM);
         taskRingtone=RingtoneManager.getRingtone (context,alert);
         if(taskRingtone!=null){
             taskRingtone.play ();

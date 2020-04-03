@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -76,6 +77,7 @@ public class ProfileFragment extends Fragment {
         aboutAppTv = v.findViewById (R.id.about);
         mStorageRef = FirebaseStorage.getInstance ().getReference ("uploads");
 
+        retrieveinfos ();
 
         upload.setOnClickListener (v12 -> {
             if (mUpload != null && mUpload.isInProgress ()) {
@@ -107,17 +109,27 @@ public class ProfileFragment extends Fragment {
                 for (DataSnapshot ds : dataSnapshot.getChildren ()) {
                     //get data
                     String name = "" + ds.child ("username").getValue ();
-                    String email = "" + ds.child ("email").getValue ();
+                    String email = "Email:" + ds.child ("email").getValue ();
                     String urlImage = "" + ds.child ("image").getValue ();
                     Name.setText (name);
-                    Email.setText (String.format ("email: %s", email));
+                    Email.setText (String.format ("%s", email));
                     try {
                         Picasso.with (getContext ())
                                 .load (urlImage).fit ().into (avatar);
                     } catch (Exception e) {
                         e.printStackTrace ();
                     }
-
+                    try {
+                        SharedPreferences sharedPreferences= Objects.requireNonNull (getActivity ())
+                                .getPreferences (Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor=sharedPreferences.edit ();
+                        editor.putString ("Username",name);
+                        editor.putString ("email",email);
+                        editor.putString ("image",urlImage);
+                        editor.apply ();
+                    } catch (Exception e) {
+                        e.printStackTrace ();
+                    }
                 }
             }
 
@@ -153,11 +165,11 @@ public class ProfileFragment extends Fragment {
                 strAppLink = "https://play.google.com/store/apps/details?id" + appPackageName;
             }
             a.setType ("text/link");
-            String sharebOdy = "Hey, Check out Task Manager Pro, i use it to manage my Todo's. Get it for free at " + "\n" + "" + strAppLink;
+            String sharebOdy = "Hey, Check out Task-it, i use it to manage my Todo's. Get it for free at " + "\n" + "" + strAppLink;
             String shareSub = "APP NAME/TITLE";
             a.putExtra (Intent.EXTRA_SUBJECT, shareSub);
             a.putExtra (Intent.EXTRA_TEXT, sharebOdy);
-            startActivity (Intent.createChooser (a, "SHare Using"));
+            startActivity (Intent.createChooser (a, "Share Using"));
         });
 
         //send Feedback Function
@@ -165,6 +177,30 @@ public class ProfileFragment extends Fragment {
 
 
         return v;
+    }
+    //retrieve save username & current date from sharedpreferences
+
+    public void retrieveinfos(){
+        String username= null;
+        String email= null;
+        String urlImage= null;
+        try {
+            SharedPreferences sharedPreferences= Objects.requireNonNull (getActivity ()).getPreferences (Context.MODE_PRIVATE);
+            username = sharedPreferences.getString ("Username","");
+            email = sharedPreferences.getString ("email","");
+            urlImage = sharedPreferences.getString ("image","");
+        } catch (Exception e) {
+            e.printStackTrace ();
+        }
+
+        Name.setText (username);
+        Email.setText (email);
+        try {
+            Picasso.with (getContext ())
+                    .load (urlImage).fit ().into (avatar);
+        } catch (Exception e) {
+            e.printStackTrace ();
+        }
     }
 
     private void showFileChooser() {

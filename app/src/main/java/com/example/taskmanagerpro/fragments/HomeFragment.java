@@ -3,6 +3,7 @@ package com.example.taskmanagerpro.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -77,6 +78,8 @@ public class HomeFragment extends Fragment {
         DisplayName = v.findViewById (R.id.welcomeName);
         emptyRecView=v.findViewById (R.id.emptyRecView);
 
+        retrieveinfos ();
+
 
         //gets user's username from database and display in accordance with the current time
         Query query;
@@ -90,16 +93,23 @@ public class HomeFragment extends Fragment {
                         try {
                             if (HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))) {
 
-                                String username = "" + d.child ("username").getValue ();
-                                String Welcome = "Welcome,";
+                                String username = "Welcome," + d.child ("username").getValue ();
                                 String date = DateFormat.getDateInstance (DateFormat.LONG).format (calendar.getTime ());
-                                DisplayName.setText (String.format ("%s%s", Welcome, username));
+                                DisplayName.setText (String.format ("%s", username));
                                 Date.setText (date);
                                 DisplayName.setVisibility (View.VISIBLE);
                                 Date.setVisibility (View.VISIBLE);
-                            } else {
-                                StyleableToast.makeText (Objects.requireNonNull (getContext ()),
-                                        "no network connection", R.style.myToast1).show ();
+
+                                try {
+                                    SharedPreferences sharedPreferences= Objects.requireNonNull (getActivity ())
+                                            .getPreferences (Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor=sharedPreferences.edit ();
+                                    editor.putString ("username",username);
+                                    editor.putString ("date",date);
+                                    editor.apply ();
+                                } catch (Exception e) {
+                                    e.printStackTrace ();
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace ();
@@ -226,6 +236,25 @@ public class HomeFragment extends Fragment {
 
     }
 
+    //retrieve save username & current date from sharedpreferences
+
+    public void retrieveinfos(){
+        String username= null;
+        String date= null;
+        try {
+            SharedPreferences sharedPreferences= Objects.requireNonNull (getActivity ()).getPreferences (Context.MODE_PRIVATE);
+            username = sharedPreferences.getString ("username","");
+            date = sharedPreferences.getString ("date","");
+        } catch (Exception e) {
+            e.printStackTrace ();
+        }
+
+        DisplayName.setText (username);
+        DisplayName.setVisibility (View.VISIBLE);
+        Date.setText (date);
+        Date.setVisibility (View.VISIBLE);
+    }
+
     //internet check
     public static boolean HasActiveNetworkConnection(Context context) {
 
@@ -281,6 +310,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume ();
         ((AppCompatActivity) getActivity ()).getSupportActionBar ().hide ();
+
     }
 
     @Override
