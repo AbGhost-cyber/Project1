@@ -1,5 +1,8 @@
 package com.example.taskmanagerpro.fragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,36 +47,70 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         holder.textViewTitle.setText (currentTask.getTitleTask ());
         holder.Description.setText (currentTask.getDescription ());
 
-        //create an object of simpledateformat with a pattern of how string text is
-        SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yy,hh:mm a", Locale.ENGLISH);
-        try {
-            //format the text to a date
-            Date date = sdf.parse (text);
-            Calendar calendar = Calendar.getInstance ();
+        //check if user's default time is in 24 hours format
+        if (CreateTaskActivity.is24hoursFormat (holder.itemView.getContext ())) {
+            SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yy,HH:mm", Locale.getDefault ());
+            try {
+                //format the text to a date
+                Date date = sdf.parse (text);
+                Calendar calendar = Calendar.getInstance ();
 
-            assert date != null;
-            calendar.setTime (date);
-            //check if the date is tomorrow
-            if (CreateTaskActivity.isTomorrow (calendar.getTime ())) {
-                text = "tomorrow, ";
-                String format = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (calendar.getTime ());
-                String Time = String.format ("%s%s", text, format);
-                holder.Date.setText (Time);
+                assert date != null;
+                calendar.setTime (date);
+                //check if the date is tomorrow
+                if (CreateTaskActivity.isTomorrow (calendar.getTime ())) {
+                    text = "tomorrow, ";
+                    String format = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (calendar.getTime ());
+                    String Time = String.format ("%s%s", text, format);
+                    holder.Date.setText (Time);
+                }
+                //check if the date is today
+                else if (CreateTaskActivity.isToday (calendar.getTime ())) {
+                    text = "today, ";
+                    String format = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (date);
+                    String Time = String.format ("%s%s", text,format);
+                    holder.Date.setText (Time);
+
+                }
+                else{
+                    holder.Date.setText (currentTask.getTaskTime ());
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace ();
             }
-            //check if the date is today
-            else if (CreateTaskActivity.isToday (calendar.getTime ())) {
-                text = "today, ";
-                String format = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (calendar.getTime ());
-                String Time = String.format ("%s%s", text, format);
-                holder.Date.setText (Time);
-            } else {
-                holder.Date.setText (currentTask.getTaskTime ());
-            }
-        } catch (ParseException e) {
-            e.printStackTrace ();
         }
+        else{
 
-    }
+                SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yy,hh:mm a", Locale.getDefault ());
+                try {
+                    //format the text to a date
+                    Date date = sdf.parse (text);
+                    Calendar calendar = Calendar.getInstance ();
+
+                    assert date != null;
+                    calendar.setTime (date);
+                    //check if the date is tomorrow
+                    if (CreateTaskActivity.isTomorrow (calendar.getTime ())) {
+                        text = "tomorrow, ";
+                        String format = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (calendar.getTime ());
+                        String Time = String.format ("%s%s", text, format);
+                        holder.Date.setText (Time);
+                    }
+                    //check if the date is today
+                    else if (CreateTaskActivity.isToday (calendar.getTime ())) {
+                        text = "today, ";
+                        String format = java.text.DateFormat.getTimeInstance (java.text.DateFormat.SHORT).format (calendar.getTime ());
+                        String Time = String.format ("%s%s", text, format);
+                        holder.Date.setText (Time);
+                    } else {
+                        holder.Date.setText (currentTask.getTaskTime ());
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace ();
+                }
+            }
+        }
 
 
     @Override

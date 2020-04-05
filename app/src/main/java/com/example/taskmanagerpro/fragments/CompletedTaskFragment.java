@@ -33,16 +33,13 @@ public class CompletedTaskFragment extends Fragment {
     private ArrayList<CompletedTaskClass> completedListItem;
     private ListView CompletedtaskList;
    private Intent intent;
-   TextView emptyList;
-   RelativeLayout emptyView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate (R.layout.compeleted_layout, container, false);
         getActivity ().setTitle ("Completed Task");
-        emptyList=v.findViewById (R.id.empty);
-        emptyView=v.findViewById (R.id.emptyView);
+        RelativeLayout emptyView = v.findViewById (R.id.emptyView);
         CompletedtaskList = v.findViewById (R.id.CompletedListView);
         CompletedtaskList.setEmptyView (emptyView);
         completedListItem = new ArrayList<> ();

@@ -34,9 +34,10 @@
     <string name="tip2">to create a new task</string>
     <string name="tip1">Smash the plus icon at the bottom right corner</string>
     <string name="empty_rec_text">Zero Tasks</string>
-    <string name="aboutparagraph">Task-it was created to help it\'s users organize their daily schedules, because we may forget our initial plan for a specific time, so Task-it helps the user to schedule a particular date/time and set a reminder for it so that the user can be notified when the time reaches and also display a list of completed schedules. Created by crushTech.inc.</string>
+    <string name="aboutparagraph">Task-it was created to help it\'s users organize their daily schedules, because  initially, we may tend to forget our plan for a specific day/time, so Task-it helps the user to schedule a particular date/time and set a reminder for it so that the user can be notified when the time reaches and also display a list of completed schedules. Created by crushTech.inc.</string>
     <string name="users_image">users_image</string>
-    <string name="NOTE">NOTE: your default time format should be 12hours format in-order for your selected task time to be in order.</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="contact_us">Contact us</string>
+    <string name="important_warning">Important Warning</string>
+    <string name="positive">OK</string>
 </resources>

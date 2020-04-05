@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
     private TextView DisplayName, Date;
-    private TextView endpage;
+    private TextView EndOfPage;
     private Calendar calendar;
     private RelativeLayout emptyRecView;
 
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance ();
         FirebaseUser user = firebaseAuth.getCurrentUser ();
         calendar = Calendar.getInstance ();
-        endpage = v.findViewById (R.id.endPage);
+        EndOfPage = v.findViewById (R.id.endPage);
         DisplayName = v.findViewById (R.id.welcomeName);
         emptyRecView=v.findViewById (R.id.emptyRecView);
 
@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment {
             //if false,then display the "end of page" text if the list contains something
             if (myTasks.size () <= 0) {
                 emptyRecView.setVisibility (View.VISIBLE);
-                endpage.setVisibility (View.INVISIBLE);
+                EndOfPage.setVisibility (View.INVISIBLE);
             }
             else{
                 emptyRecView.setVisibility (View.GONE);
@@ -196,7 +196,7 @@ public class HomeFragment extends Fragment {
                             .setAction ("Undo", v1 -> {
                                 taskViewModel.insert (deletedTask);
                                 adapter.notifyDataSetChanged ();
-                                endpage.setVisibility (View.VISIBLE);
+                                EndOfPage.setVisibility (View.VISIBLE);
                                 adapter.notifyItemChanged (adapterPosition);
                             })
                             .show ();
@@ -211,7 +211,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 new RecyclerViewSwipeDecorator.Builder (c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addBackgroundColor (ContextCompat.getColor (getActivity (), R.color.red))
+                        .addBackgroundColor (ContextCompat.getColor (Objects.requireNonNull (getActivity ()), R.color.red))
                         .addActionIcon (R.drawable.ic_delete_black_24dp)
                         .addSwipeLeftLabel ("delete")
                         .setSwipeLeftLabelColor (R.color.yellow)
@@ -283,14 +283,14 @@ public class HomeFragment extends Fragment {
             MyTask myTask = new MyTask (title, Des, Date);
             taskViewModel.insert (myTask);
 
-            StyleableToast.makeText (getContext (), "Task created", R.style.myToast).show ();
-            endpage.setVisibility (View.VISIBLE);
+            StyleableToast.makeText (Objects.requireNonNull (getContext ()), "Task created", R.style.myToast).show ();
+            EndOfPage.setVisibility (View.VISIBLE);
 
         } else if (requestCode == EDIT_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
             int id = data.getIntExtra (CreateTaskActivity.EXTRA_ID, -1);
 
             if (id == -1) {
-                StyleableToast.makeText (getContext (), "Task can't be updated", R.style.myToast1).show ();
+                StyleableToast.makeText (Objects.requireNonNull (getContext ()), "Task can't be updated", R.style.myToast1).show ();
                 return;
             }
             String title = data.getStringExtra (CreateTaskActivity.EXTRA_TITLE);
@@ -300,7 +300,7 @@ public class HomeFragment extends Fragment {
             MyTask myTask = new MyTask (title, Des, Date);
             myTask.setId (id);
             taskViewModel.update (myTask);
-            StyleableToast.makeText (getContext (), "Task updated", R.style.myToast).show ();
+            StyleableToast.makeText (Objects.requireNonNull (getContext ()), "Task updated", R.style.myToast).show ();
 
         }
     }
@@ -309,13 +309,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume ();
-        ((AppCompatActivity) getActivity ()).getSupportActionBar ().hide ();
+        Objects.requireNonNull (((AppCompatActivity) Objects.requireNonNull (getActivity ())).getSupportActionBar ()).hide ();
 
     }
 
     @Override
     public void onStop() {
         super.onStop ();
-        ((AppCompatActivity) getActivity ()).getSupportActionBar ().show ();
+        Objects.requireNonNull (((AppCompatActivity) Objects.requireNonNull (getActivity ())).getSupportActionBar ()).show ();
     }
 }

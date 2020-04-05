@@ -1,10 +1,19 @@
 package com.example.taskmanagerpro.ui;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 
 import com.example.taskmanagerpro.fragments.CompletedTaskFragment;
 import com.example.taskmanagerpro.R;
@@ -12,16 +21,19 @@ import com.example.taskmanagerpro.fragments.HomeFragment;
 import com.example.taskmanagerpro.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 import hotchemi.android.rate.AppRate;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView bottomNav = findViewById (R.id.bottomNav);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+
 
         //show rate app prompt
         AppRate.with (this)
@@ -77,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         }
         // handles on hard ware backpressed..
 
-    }
+
+
+}
 
 

@@ -3,12 +3,16 @@ package com.example.taskmanagerpro.ui;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,6 +27,8 @@ import com.example.taskmanagerpro.R;
 import com.example.taskmanagerpro.fragments.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -105,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 
     private void showRecoverPasswordDialog() {
         AlertDialog.Builder builder=new AlertDialog.Builder (this);

@@ -45,7 +45,6 @@ import java.util.Objects;
 
 
 public class ProfileFragment extends Fragment {
-    private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private ImageView avatar;
     private Button upload;
@@ -54,7 +53,8 @@ public class ProfileFragment extends Fragment {
     private DatabaseReference databaseReference;
     private StorageReference mStorageRef;
     private StorageTask mUpload;
-    private TextView aboutAppTv, Name, Email, Share,sendFeedback,rateApp;
+    private TextView Name;
+    private TextView Email;
 
     @Nullable
     @Override
@@ -62,19 +62,19 @@ public class ProfileFragment extends Fragment {
         View v = inflater.inflate (R.layout.profile_layout, container, false);
         getActivity ().setTitle ("My Profile");
 
-        firebaseAuth = FirebaseAuth.getInstance ();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance ();
         user = firebaseAuth.getCurrentUser ();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance ();
         databaseReference = firebaseDatabase.getReference ("Users");
 
-        rateApp=v.findViewById (R.id.RateApp);
+        TextView rateApp = v.findViewById (R.id.RateApp);
         avatar = v.findViewById (R.id.avatarIv);
         Name = v.findViewById (R.id.User_name);
         Email = v.findViewById (R.id.User_email);
-        Share = v.findViewById (R.id.shareAndSend);
+        TextView share = v.findViewById (R.id.shareAndSend);
         upload = v.findViewById (R.id.saveUpload);
-        sendFeedback=v.findViewById (R.id.sendFeedback);
-        aboutAppTv = v.findViewById (R.id.about);
+        TextView sendFeedback = v.findViewById (R.id.sendFeedback);
+        TextView aboutAppTv = v.findViewById (R.id.about);
         mStorageRef = FirebaseStorage.getInstance ().getReference ("uploads");
 
         retrieveinfos ();
@@ -140,21 +140,18 @@ public class ProfileFragment extends Fragment {
         });
 
         //rate app function, this will come in the update
-        rateApp.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                try{
-                    startActivity (new Intent (Intent.ACTION_VIEW,
-                            Uri.parse ("market://details?id=" +getContext ().getPackageName ())));
-                }catch (ActivityNotFoundException e){
-                    startActivity (new Intent (Intent.ACTION_VIEW,
-                            Uri.parse ("http://play.google.com/store/apps/details?id=" +getContext ().getPackageName ())));
-                }
+        rateApp.setOnClickListener (v16 -> {
+            try{
+                startActivity (new Intent (Intent.ACTION_VIEW,
+                        Uri.parse ("market://details?id=" +getContext ().getPackageName ())));
+            }catch (ActivityNotFoundException e){
+                startActivity (new Intent (Intent.ACTION_VIEW,
+                        Uri.parse ("http://play.google.com/store/apps/details?id=" +getContext ().getPackageName ())));
             }
         });
 
         //share function
-        Share.setOnClickListener (v14 -> {
+        share.setOnClickListener (v14 -> {
             //TODO remember to replace the google play with website link
             Intent a = new Intent (Intent.ACTION_SEND);
             final String appPackageName = getActivity ().getApplicationContext ().getPackageName ();
@@ -180,7 +177,7 @@ public class ProfileFragment extends Fragment {
     }
     //retrieve save username & current date from sharedpreferences
 
-    public void retrieveinfos(){
+    private void retrieveinfos(){
         String username= null;
         String email= null;
         String urlImage= null;

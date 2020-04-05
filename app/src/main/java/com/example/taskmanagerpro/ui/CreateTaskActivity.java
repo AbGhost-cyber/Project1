@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import com.example.taskmanagerpro.R;
 import com.example.taskmanagerpro.receiver.AlertReceiver;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,10 +32,10 @@ import java.util.Locale;
 
 public class CreateTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
-    public static final String EXTRA_ID = "com.example.todomadeasy.EXTRA_ID";
-    public static final String EXTRA_TITLE = "com.example.todomadeasy.EXTRA_TITLE";
-    public static final String EXTRA_DESC = "com.example.todomadeasy.EXTRA_DES";
-    public static final String EXTRA_TIME = "com.example.todomadeasy.EXTRA_TIME";
+    public static final String EXTRA_ID = "com.example.taskmanagerpro.EXTRA_ID";
+    public static final String EXTRA_TITLE = "com.example.taskmanagerpro.EXTRA_TITLE";
+    public static final String EXTRA_DESC = "com.example.taskmanagerpro.EXTRA_DES";
+    public static final String EXTRA_TIME = "com.example.taskmanagerpro.EXTRA_TIME";
 
     private EditText titleTask;
     private EditText Description;
@@ -81,27 +83,53 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
                 //get text from tasktime textview
                 String input = TaskTime.getText ().toString ();
 
-                //create an object of simple date format
-                SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yy,hh:mm aa", Locale.getDefault ());
-                try {
-                    //format the text to a date
-                    Date date = sdf.parse (input);
-                    final Calendar calendar = Calendar.getInstance ();
-                    assert date != null;
+                //check if user's default time is in 24 hours format
+                if(is24hoursFormat (this)){
+                    SimpleDateFormat sdf=new SimpleDateFormat ("MM/dd/yy,HH:mm",Locale.getDefault ());
+                    try {
+                        //format the text to a date
+                        Date date = sdf.parse (input);
+                        final Calendar calendar = Calendar.getInstance ();
+                        assert date != null;
 
 
-                    //set the date
-                    calendar.setTime (date);
-                    Myear = calendar.get (Calendar.YEAR);
-                    Mmonth = calendar.get (Calendar.MONTH);
-                    Mday = calendar.get (Calendar.DAY_OF_MONTH);
-                    Mhour = calendar.get (Calendar.HOUR_OF_DAY);
-                    Mminute = calendar.get (Calendar.MINUTE);
+                        //set the date
+                        calendar.setTime (date);
+                        Myear = calendar.get (Calendar.YEAR);
+                        Mmonth = calendar.get (Calendar.MONTH);
+                        Mday = calendar.get (Calendar.DAY_OF_MONTH);
+                        Mhour = calendar.get (Calendar.HOUR_OF_DAY);
+                        Mminute = calendar.get (Calendar.MINUTE);
 
 
-                } catch (ParseException e) {
-                    e.printStackTrace ();
+                    } catch (ParseException e) {
+                        e.printStackTrace ();
+                    }
+
                 }
+                else{
+                    SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yy,hh:mm aa", Locale.getDefault ());
+                    try {
+                        //format the text to a date
+                        Date date = sdf.parse (input);
+                        final Calendar calendar = Calendar.getInstance ();
+                        assert date != null;
+
+
+                        //set the date
+                        calendar.setTime (date);
+                        Myear = calendar.get (Calendar.YEAR);
+                        Mmonth = calendar.get (Calendar.MONTH);
+                        Mday = calendar.get (Calendar.DAY_OF_MONTH);
+                        Mhour = calendar.get (Calendar.HOUR_OF_DAY);
+                        Mminute = calendar.get (Calendar.MINUTE);
+
+
+                    } catch (ParseException e) {
+                        e.printStackTrace ();
+                    }
+                }
+
             } else {
                 Calendar instance = Calendar.getInstance ();
                 Myear = instance.get (Calendar.YEAR);
@@ -224,7 +252,7 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
         TimePickerDialog timePickerDialog = new TimePickerDialog (CreateTaskActivity.this,
                 CreateTaskActivity.this, Mhour,
-                Mminute, false);
+                Mminute, android.text.format.DateFormat.is24HourFormat (this));
 
         timePickerDialog.show ();
 
@@ -254,5 +282,8 @@ public class CreateTaskActivity extends AppCompatActivity implements DatePickerD
 
     public static boolean isTomorrow(Date d) {
         return DateUtils.isToday (d.getTime () - DateUtils.DAY_IN_MILLIS);
+    }
+    public  static boolean is24hoursFormat(Context context){
+        return android.text.format.DateFormat.is24HourFormat (context.getApplicationContext ());
     }
 }
