@@ -40,4 +40,10 @@
     <string name="contact_us">Contact us</string>
     <string name="important_warning">Important Warning</string>
     <string name="positive">OK</string>
+    <string name="rate_dialog_title">Rate this app</string>
+    <string name="rate_dialog_message">if you enjoy using this app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thanks for your support! </string>
+    <string name="rate_dialog_ok">Rate It Now</string>
+    <string name="rate_dialog_cancel">Remind me Later</string>
+    <string name="rate_dialog_no">No,Thanks</string>
+
 </resources>
