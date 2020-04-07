@@ -42,7 +42,18 @@
           android:layout_below="@id/actiontoTake1"/>
    </RelativeLayout>
 
+   <com.google.android.gms.ads.AdView
+       android:id="@+id/adView"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       ads:adSize="BANNER"
+       android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+       android:layout_margin="20dp"
+       ads:adUnitId="ca-app-pub-7292512767354152/9092680097"
+       xmlns:ads="http://schemas.android.com/apk/res-auto">
 
+   </com.google.android.gms.ads.AdView>
 
    <ListView
        android:layout_width="match_parent"

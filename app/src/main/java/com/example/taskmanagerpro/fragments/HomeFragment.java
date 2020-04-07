@@ -25,11 +25,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.taskmanagerpro.R;
 import com.example.taskmanagerpro.data.MyTask;
 import com.example.taskmanagerpro.data.TaskViewModel;
 import com.example.taskmanagerpro.ui.CreateTaskActivity;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,15 +64,37 @@ public class HomeFragment extends Fragment {
     private TextView EndOfPage;
     private Calendar calendar;
     private RelativeLayout emptyRecView;
-
+    private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate (R.layout.home_activity, container, false);
 
+        //initialize mobile ads
+        MobileAds.initialize (getContext (), initializationStatus -> {
+
+        });
+        //initial interstitial ad
+        mInterstitialAd=new InterstitialAd (Objects.requireNonNull (getContext ()));
+        //set unique ad id
+        mInterstitialAd.setAdUnitId ("ca-app-pub-7292512767354152/9897483548");
+        mInterstitialAd.loadAd (new AdRequest.Builder ().build ());
+
+        // set adlistener to reload new ad
+        mInterstitialAd.setAdListener (new AdListener (){
+            @Override
+            public void onAdClosed(){
+                mInterstitialAd.loadAd (new AdRequest.Builder ().build ());
+            }
+        });
         FloatingActionButton buttonAddTask = v.findViewById (R.id.button_add_task);
         SearchView searchView = v.findViewById (R.id.SearchView);
+
+        mAdView = v.findViewById(R.id.adView1);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance ();
         DatabaseReference databaseReference = firebaseDatabase.getReference ("Users");
@@ -153,6 +181,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager myManager = new LinearLayoutManager (getActivity ());
         recyclerView.setLayoutManager (myManager);
         recyclerView.setHasFixedSize (true);
+
 
         adapter = new TaskAdapter ();
         recyclerView.setAdapter (adapter);
@@ -282,6 +311,10 @@ public class HomeFragment extends Fragment {
 
             MyTask myTask = new MyTask (title, Des, Date);
             taskViewModel.insert (myTask);
+            //display ads
+            if(mInterstitialAd.isLoaded ()){
+                mInterstitialAd.show ();
+            }
 
             StyleableToast.makeText (Objects.requireNonNull (getContext ()), "Task created", R.style.myToast).show ();
             EndOfPage.setVisibility (View.VISIBLE);

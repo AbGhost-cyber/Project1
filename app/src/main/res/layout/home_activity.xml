@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,9 +22,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="11dp"
+                android:layout_marginTop="9dp"
                 android:orientation="vertical"
-                android:padding="12dp"
-                android:layout_marginTop="9dp">
+                android:padding="12dp">
 
                 <TextView
                     android:id="@+id/welcomeName"
@@ -54,8 +53,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginTop="6dp">
+            android:layout_marginTop="6dp"
+            android:padding="10dp">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/SearchView"
@@ -89,49 +88,52 @@
             android:id="@+id/endPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/TaskRecycler"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/amaranth_bold"
             android:text="@string/task_end"
             android:textAlignment="center"
             android:textColor="#9A9A9A"
             android:textSize="16sp"
-            android:layout_below="@id/TaskRecycler"
             android:visibility="visible" />
+
         <RelativeLayout
+            android:id="@+id/emptyRecView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/emptyRecView">
+            android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/emptyRecitem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/emptyRecitem"
-                android:visibility="visible"
+                android:layout_marginTop="300dp"
+                android:drawableTop="@drawable/reycler_empty_icon"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/empty_rec_text"
+                android:textAlignment="center"
+                android:textColor="@color/Black"
                 android:textSize="19sp"
                 android:textStyle="bold"
-                android:textColor="@color/Black"
-                android:drawableTop="@drawable/reycler_empty_icon"
-                android:text="@string/empty_rec_text"
-                android:fontFamily="sans-serif-black"
-                android:textAlignment="center"
-                android:layout_marginTop="300dp" />
+                android:visibility="visible" />
+
             <TextView
+                android:id="@+id/tip1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/emptyRecitem"
-                android:text="@string/tip1"
-                android:textAlignment="center"
                 android:fontFamily="sans-serif-black"
-                android:id="@+id/tip1"/>
+                android:text="@string/tip1"
+                android:textAlignment="center" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tip1"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/tip2"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
         </RelativeLayout>
-
 
 
     </RelativeLayout>
@@ -143,6 +145,17 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="32dp"
         android:src="@drawable/ic_add_black_24dp" />
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        android:layout_gravity="bottom|center"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        ads:adUnitId="ca-app-pub-7292512767354152/9092680097"
+        xmlns:ads="http://schemas.android.com/apk/res-auto">
 
+    </com.google.android.gms.ads.AdView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
