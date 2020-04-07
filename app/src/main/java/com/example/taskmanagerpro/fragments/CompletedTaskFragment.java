@@ -24,23 +24,38 @@ import com.example.taskmanagerpro.data.CompletedTaskClass;
 import com.example.taskmanagerpro.R;
 import com.example.taskmanagerpro.data.DatabaseHelperComTask;
 import com.example.taskmanagerpro.ui.SendToComplete;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CompletedTaskFragment extends Fragment {
     private DatabaseHelperComTask db;
     private ArrayList<CompletedTaskClass> completedListItem;
     private ListView CompletedtaskList;
    private Intent intent;
+   private AdView mAdView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate (R.layout.compeleted_layout, container, false);
+
+        //initialize banner ad
+        mAdView = v.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         getActivity ().setTitle ("Completed Task");
+
         RelativeLayout emptyView = v.findViewById (R.id.emptyView);
+
         CompletedtaskList = v.findViewById (R.id.CompletedListView);
+        //set empty view for list view
         CompletedtaskList.setEmptyView (emptyView);
         completedListItem = new ArrayList<> ();
 
@@ -83,7 +98,7 @@ public class CompletedTaskFragment extends Fragment {
             CompletedTaskadapter myTaskAdapter = new CompletedTaskadapter (getContext (), completedListItem);
             CompletedtaskList.setAdapter (myTaskAdapter);
             CompletedtaskList.setOnItemClickListener ((parent, view, position, id) -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder (getContext ());
+                AlertDialog.Builder builder = new AlertDialog.Builder (Objects.requireNonNull (getContext ()));
                 builder.setCancelable (false);
                 builder.setTitle ("Choose option");
                 builder.setMessage ("Delete " + completedListItem.get (position).getTitle () + "?");
