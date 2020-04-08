@@ -1,8 +1,5 @@
-package com.example.taskmanagerpro.fragments;
+package com.example.taskmanagerpro.adapter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,7 +160,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         taskList = tasks;
     }
 
-    class TaskHolder extends RecyclerView.ViewHolder {
+    public class TaskHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView Description;
         private TextView Date;

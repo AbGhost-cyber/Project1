@@ -10,20 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragmentcontainer"
-        android:layout_above="@id/bottomNav"/>
+        android:layout_above="@id/customBottomBar"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNav"
+    <include
+        android:id="@+id/customBottomBar"
+        layout="@layout/custom_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        app:elevation="8dp"
-        android:showAsAction="always|withText"
-        app:itemTextColor="@color/Black"
-        app:menu="@menu/menu"
-        app:labelVisibilityMode="labeled"
-        tools:visibility="visible"/>
+        android:layout_alignParentBottom="true" />
 
 
 </RelativeLayout>

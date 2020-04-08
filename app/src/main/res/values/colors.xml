@@ -3,6 +3,7 @@
     <color name="colorPrimary">#FFC107</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FFC107</color>
+
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFC107</color>
     <color name="Lightyellow">#FFEB3B</color>
@@ -12,4 +13,11 @@
     <color name="red">#C90D0D</color>
     <color name="green">#98EC9B</color>
     <color name="green1">#0B8011</color>
+    <color name="colorDivider">#E6E6E6</color>
+    <color name="colorBottomBarBackground">#FFFFFF</color>
+    <color name="colorItemDefaultBackground">#FFFFFF</color>
+    <color name="colorItemDefaultTint">#000000</color>
+    <color name="colorItem1Background">#F7D7EF</color>
+    <color name="colorItem2Background">#C2D0F8</color>
+    <color name="colorItem3Background">#CFEBEF</color>
 </resources>

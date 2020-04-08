@@ -1,39 +1,33 @@
 package com.example.taskmanagerpro.ui;
 
-import androidx.appcompat.app.AlertDialog;
+import android.annotation.SuppressLint;
+import android.app.FragmentManager;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.app.FragmentManager;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-
-import com.example.taskmanagerpro.fragments.CompletedTaskFragment;
 import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.adapter.ItemAdapter;
+import com.example.taskmanagerpro.data.CustomBottomBar;
+import com.example.taskmanagerpro.data.CustomBottomItem;
+import com.example.taskmanagerpro.fragments.CompletedTaskFragment;
 import com.example.taskmanagerpro.fragments.HomeFragment;
 import com.example.taskmanagerpro.fragments.ProfileFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.Objects;
 
 import hotchemi.android.rate.AppRate;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemSelectorInterface {
+    private CustomBottomBar customBottomBar;
+    public static final int HOME = 0;
+    public static final int COMTASK = 1;
+    public static final int PROFILE = 2;
+
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        BottomNavigationView bottomNav = findViewById (R.id.bottomNav);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.activity_main);
 
         //show rate app prompt
         AppRate.with (this)
@@ -44,53 +38,75 @@ public class MainActivity extends AppCompatActivity {
 
         AppRate.showRateDialogIfMeetsConditions (this);
 
-        //this checks to see if there's any savedInstance,if null, then it replaces the fragment container
-        // with home fragment.
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,
-                    new HomeFragment ()).commit();
-        }
 
+        customBottomBar = new CustomBottomBar (this,
+                findViewById (R.id.customBottomBar),
+                MainActivity.this);
+        initItems ();
+        customBottomBar.changeBackground (getString (R.color.colorItemDefaultBackground));
+        customBottomBar.setDefaultBackground (getString (R.color.colorItemDefaultBackground));
+        customBottomBar.setDefaultTint (getString (R.color.colorItemDefaultTint));
+        customBottomBar.changeDividerColor (getString (R.color.colorDivider));
+        customBottomBar.hideDivider ();
+        customBottomBar.apply (HOME);
+    }
+
+    @SuppressLint("ResourceType")
+    private void initItems() {
+        CustomBottomItem Home = new CustomBottomItem (HOME,
+                R.drawable.ic_home_black_24dp, getString (R.string.Home),
+                getString (R.color.Black), getString (R.color.white));
+
+        CustomBottomItem Com_task = new CustomBottomItem (COMTASK, R.drawable.completed_24dp,
+                getString (R.string.ComTask), getString (R.color.colorItem2Background),
+                getString (R.color.Black));
+
+        CustomBottomItem profile = new CustomBottomItem (PROFILE, R.drawable.ic_person_black_24dp,
+                getString (R.string.Profile), getString (R.color.colorItem3Background),
+                getString (R.color.Black));
+
+        customBottomBar.addItem (Home);
+        customBottomBar.addItem (Com_task);
+        customBottomBar.addItem (profile);
+    }
+
+    @Override
+    public void itemSelect(int selectedID) {
+        switch (selectedID) {
+            case HOME:
+                //todo do something, when home is selected
+
+                SetupFragment (new HomeFragment ());
+                break;
+
+            case COMTASK:
+                //todo do something, when comtask is selected
+
+                SetupFragment (new CompletedTaskFragment ());
+                break;
+            case PROFILE:
+                //todo do something, when Profile is selected
+
+                SetupFragment (new ProfileFragment ());
+                break;
+        }
+    }
+
+    private void SetupFragment(Fragment fragment) {
+        getSupportFragmentManager ().beginTransaction ().replace (R.id.fragmentcontainer,
+                fragment).commit ();
+    }
+
+    // handles on hard ware backpressed..
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getFragmentManager ();
+        if (fm.getBackStackEntryCount () > 0) {
+            fm.popBackStack ();
+        } else {
+            super.onBackPressed ();
+        }
     }
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener=
-            menuItem -> {
-                Fragment selectedfragment=null;
-                switch (menuItem.getItemId())
-                {
-                    case R.id.home:
-                        selectedfragment=new HomeFragment();
-                        break;
-
-                    case R.id.completed:
-                        selectedfragment=new CompletedTaskFragment ();
-                        break;
-                    case R.id.profile:
-                        selectedfragment=new ProfileFragment ();
-                        break;
-                }
-                if (selectedfragment != null) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentcontainer,
-                            selectedfragment).commit();
-                }
-
-                return true;
-            };
-    @Override
-    public void onBackPressed() {
-        FragmentManager fm=getFragmentManager ();
-        if (fm.getBackStackEntryCount ()>0) {
-            fm.popBackStack ();
-        }
-           else {
-               super.onBackPressed ();
-           }
-        }
-        // handles on hard ware backpressed..
-
-
-
 }
-
-
