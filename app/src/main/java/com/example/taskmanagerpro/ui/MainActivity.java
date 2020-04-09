@@ -22,12 +22,25 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemS
     public static final int HOME = 0;
     public static final int COMTASK = 1;
     public static final int PROFILE = 2;
+    androidx.fragment.app.FragmentManager fm;
+    private Fragment active;
+    private Fragment fragment1;
+    private Fragment fragment2;
+    private Fragment fragment3;
 
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_main);
+        fragment1 = new HomeFragment ();
+        fragment2 = new CompletedTaskFragment ();
+        fragment3 = new ProfileFragment ();
+        active = fragment1;
+        fm = getSupportFragmentManager ();
+        fm.beginTransaction ().add (R.id.fragmentcontainer, fragment3, "3").hide (fragment3).commit ();
+        fm.beginTransaction ().add (R.id.fragmentcontainer, fragment2, "2").hide (fragment2).commit ();
+        fm.beginTransaction ().add (R.id.fragmentcontainer, fragment1, "1").commit ();
 
         //show rate app prompt
         AppRate.with (this)
@@ -55,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemS
     private void initItems() {
         CustomBottomItem Home = new CustomBottomItem (HOME,
                 R.drawable.ic_home_black_24dp, getString (R.string.Home),
-                getString (R.color.Black), getString (R.color.white));
+                getString (R.color.colorItem1Background), getString (R.color.Black));
 
         CustomBottomItem Com_task = new CustomBottomItem (COMTASK, R.drawable.completed_24dp,
                 getString (R.string.ComTask), getString (R.color.colorItem2Background),
@@ -74,27 +87,41 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemS
     public void itemSelect(int selectedID) {
         switch (selectedID) {
             case HOME:
-                //todo do something, when home is selected
 
-                SetupFragment (new HomeFragment ());
+                fm.beginTransaction ().hide (active).show (fragment1).commit ();
+                active = fragment1;
+                try {
+                    fragment1.onStart ();
+                } catch (Exception e) {
+                    e.printStackTrace ();
+                }
+
                 break;
 
             case COMTASK:
-                //todo do something, when comtask is selected
 
-                SetupFragment (new CompletedTaskFragment ());
+                fm.beginTransaction ().hide (active).show (fragment2).commit ();
+                active = fragment2;
+                try {
+                    fragment2.onStart ();
+                } catch (Exception e) {
+                    e.printStackTrace ();
+                }
+
                 break;
             case PROFILE:
                 //todo do something, when Profile is selected
+                fm.beginTransaction ().hide (active).show (fragment3).commit ();
+                active = fragment3;
+                try {
+                    fragment3.onStart ();
 
-                SetupFragment (new ProfileFragment ());
+                } catch (Exception e) {
+                    e.printStackTrace ();
+                }
+
                 break;
         }
-    }
-
-    private void SetupFragment(Fragment fragment) {
-        getSupportFragmentManager ().beginTransaction ().replace (R.id.fragmentcontainer,
-                fragment).commit ();
     }
 
     // handles on hard ware backpressed..

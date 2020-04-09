@@ -93,17 +93,12 @@ dependencies {
     //Picasso square
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
-    //ios-like timepicker
-    implementation 'com.ramesh.mypicker:pickerview:1.1'
-
     //styleable Toasts
     implementation 'com.muddzdev:styleabletoast:2.0.1'
 
     //rate app prompt
     implementation 'com.github.hotchemi:android-rate:1.0.1'
 
-    //work manager
-    implementation 'androidx.work:work-runtime:2.3.1'
     //sharedpref
     implementation 'androidx.preference:preference:1.1.0'
 

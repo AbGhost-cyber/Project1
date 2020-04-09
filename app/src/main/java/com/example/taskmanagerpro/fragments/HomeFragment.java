@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.taskmanagerpro.R;
 import com.example.taskmanagerpro.adapter.TaskAdapter;
 import com.example.taskmanagerpro.data.MyTask;
@@ -70,30 +71,29 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate (R.layout.home_activity, container, false);
-
         //initialize mobile ads
         MobileAds.initialize (getContext (), initializationStatus -> {
 
         });
         //initial interstitial ad
-        mInterstitialAd=new InterstitialAd (Objects.requireNonNull (getContext ()));
+        mInterstitialAd = new InterstitialAd (Objects.requireNonNull (getContext ()));
         //set unique ad id
         mInterstitialAd.setAdUnitId ("ca-app-pub-7292512767354152/9897483548");
         mInterstitialAd.loadAd (new AdRequest.Builder ().build ());
 
         // set adlistener to reload new ad
-        mInterstitialAd.setAdListener (new AdListener (){
+        mInterstitialAd.setAdListener (new AdListener () {
             @Override
-            public void onAdClosed(){
+            public void onAdClosed() {
                 mInterstitialAd.loadAd (new AdRequest.Builder ().build ());
             }
         });
         FloatingActionButton buttonAddTask = v.findViewById (R.id.button_add_task);
         SearchView searchView = v.findViewById (R.id.SearchView);
 
-        mAdView = v.findViewById(R.id.adView1);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView = v.findViewById (R.id.adView1);
+        AdRequest adRequest = new AdRequest.Builder ().build ();
+        mAdView.loadAd (adRequest);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance ();
         DatabaseReference databaseReference = firebaseDatabase.getReference ("Users");
@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
         calendar = Calendar.getInstance ();
         EndOfPage = v.findViewById (R.id.endPage);
         DisplayName = v.findViewById (R.id.welcomeName);
-        emptyRecView=v.findViewById (R.id.emptyRecView);
+        emptyRecView = v.findViewById (R.id.emptyRecView);
 
         retrieveinfos ();
 
@@ -128,11 +128,11 @@ public class HomeFragment extends Fragment {
                                 Date.setVisibility (View.VISIBLE);
 
                                 try {
-                                    SharedPreferences sharedPreferences= Objects.requireNonNull (getActivity ())
+                                    SharedPreferences sharedPreferences = Objects.requireNonNull (getActivity ())
                                             .getPreferences (Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor=sharedPreferences.edit ();
-                                    editor.putString ("username",username);
-                                    editor.putString ("date",date);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit ();
+                                    editor.putString ("username", username);
+                                    editor.putString ("date", date);
                                     editor.apply ();
                                 } catch (Exception e) {
                                     e.printStackTrace ();
@@ -193,8 +193,7 @@ public class HomeFragment extends Fragment {
             if (myTasks.size () <= 0) {
                 emptyRecView.setVisibility (View.VISIBLE);
                 EndOfPage.setVisibility (View.INVISIBLE);
-            }
-            else{
+            } else {
                 emptyRecView.setVisibility (View.GONE);
             }
             adapter.setTasks (myTasks);
@@ -266,13 +265,13 @@ public class HomeFragment extends Fragment {
 
     //retrieve save username & current date from sharedpreferences
 
-    public void retrieveinfos(){
-        String username= null;
-        String date= null;
+    private void retrieveinfos() {
+        String username = null;
+        String date = null;
         try {
-            SharedPreferences sharedPreferences= Objects.requireNonNull (getActivity ()).getPreferences (Context.MODE_PRIVATE);
-            username = sharedPreferences.getString ("username","");
-            date = sharedPreferences.getString ("date","");
+            SharedPreferences sharedPreferences = Objects.requireNonNull (getActivity ()).getPreferences (Context.MODE_PRIVATE);
+            username = sharedPreferences.getString ("username", "");
+            date = sharedPreferences.getString ("date", "");
         } catch (Exception e) {
             e.printStackTrace ();
         }
@@ -311,7 +310,7 @@ public class HomeFragment extends Fragment {
             MyTask myTask = new MyTask (title, Des, Date);
             taskViewModel.insert (myTask);
             //display ads
-            if(mInterstitialAd.isLoaded ()){
+            if (mInterstitialAd.isLoaded ()) {
                 mInterstitialAd.show ();
             }
 
@@ -337,17 +336,10 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
     @Override
-    public void onResume() {
-        super.onResume ();
-        Objects.requireNonNull (((AppCompatActivity) Objects.requireNonNull (getActivity ())).getSupportActionBar ()).hide ();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop ();
-        Objects.requireNonNull (((AppCompatActivity) Objects.requireNonNull (getActivity ())).getSupportActionBar ()).show ();
+    public void onStart() {
+        super.onStart ();
+        Objects.requireNonNull (((AppCompatActivity) Objects.
+                requireNonNull (getActivity ())).getSupportActionBar ()).hide ();
     }
 }

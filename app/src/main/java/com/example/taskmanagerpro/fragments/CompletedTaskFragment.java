@@ -18,17 +18,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.taskmanagerpro.data.CompletedTaskClass;
 import com.example.taskmanagerpro.R;
+import com.example.taskmanagerpro.data.CompletedTaskClass;
 import com.example.taskmanagerpro.data.DatabaseHelperComTask;
 import com.example.taskmanagerpro.ui.SendToComplete;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
@@ -38,19 +36,17 @@ public class CompletedTaskFragment extends Fragment {
     private DatabaseHelperComTask db;
     private ArrayList<CompletedTaskClass> completedListItem;
     private ListView CompletedtaskList;
-   private Intent intent;
-   private AdView mAdView;
+    private Intent intent;
+    private AdView mAdView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate (R.layout.compeleted_layout, container, false);
-
         //initialize banner ad
-        mAdView = v.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        getActivity ().setTitle ("Completed Task");
+        mAdView = v.findViewById (R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder ().build ();
+        mAdView.loadAd (adRequest);
 
         RelativeLayout emptyView = v.findViewById (R.id.emptyView);
 
@@ -66,12 +62,12 @@ public class CompletedTaskFragment extends Fragment {
         if (intent.getExtras () != null) {
             CompletedTaskClass completedTaskClass = new CompletedTaskClass ();
 
-            String title=intent.getStringExtra (SendToComplete.TITLE);
-            String time=intent.getStringExtra (SendToComplete.TIME);
+            String title = intent.getStringExtra (SendToComplete.TITLE);
+            String time = intent.getStringExtra (SendToComplete.TIME);
 
-            if (title != null && !title.trim ().equals ("")){
+            if (title != null && !title.trim ().equals ("")) {
 
-                if(time != null && !time.trim ().equals ("")){
+                if (time != null && !time.trim ().equals ("")) {
                     completedTaskClass.setTitle (title);
                     completedTaskClass.setTime (time);
                     db.insertData (completedTaskClass);
@@ -126,6 +122,7 @@ public class CompletedTaskFragment extends Fragment {
         DisplayData ();
         intent.removeExtra (SendToComplete.TITLE);
         intent.removeExtra (SendToComplete.TIME);
+        // Objects.requireNonNull (((AppCompatActivity) Objects.requireNonNull (getActivity ())).getSupportActionBar ()).show ();
 
     }
 
@@ -207,5 +204,14 @@ public class CompletedTaskFragment extends Fragment {
                 }
         }
         return super.onOptionsItemSelected (item);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart ();
+        Objects.requireNonNull (((AppCompatActivity) Objects.
+                requireNonNull (getActivity ())).getSupportActionBar ()).setTitle ("Completed Tasks");
+        Objects.requireNonNull (((AppCompatActivity) Objects.
+                requireNonNull (getActivity ())).getSupportActionBar ()).show ();
     }
 }

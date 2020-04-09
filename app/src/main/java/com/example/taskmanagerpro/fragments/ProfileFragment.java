@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.taskmanagerpro.R;
@@ -60,7 +61,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate (R.layout.profile_layout, container, false);
-        getActivity ().setTitle ("My Profile");
+
+
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance ();
         user = firebaseAuth.getCurrentUser ();
@@ -120,12 +122,12 @@ public class ProfileFragment extends Fragment {
                         e.printStackTrace ();
                     }
                     try {
-                        SharedPreferences sharedPreferences= Objects.requireNonNull (getActivity ())
+                        SharedPreferences sharedPreferences = Objects.requireNonNull (getActivity ())
                                 .getPreferences (Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor=sharedPreferences.edit ();
-                        editor.putString ("Username",name);
-                        editor.putString ("email",email);
-                        editor.putString ("image",urlImage);
+                        SharedPreferences.Editor editor = sharedPreferences.edit ();
+                        editor.putString ("Username", name);
+                        editor.putString ("email", email);
+                        editor.putString ("image", urlImage);
                         editor.apply ();
                     } catch (Exception e) {
                         e.printStackTrace ();
@@ -141,12 +143,12 @@ public class ProfileFragment extends Fragment {
 
         //rate app function, this will come in the update
         rateApp.setOnClickListener (v16 -> {
-            try{
+            try {
                 startActivity (new Intent (Intent.ACTION_VIEW,
-                        Uri.parse ("market://details?id=" +getContext ().getPackageName ())));
-            }catch (ActivityNotFoundException e){
+                        Uri.parse ("market://details?id=" + getContext ().getPackageName ())));
+            } catch (ActivityNotFoundException e) {
                 startActivity (new Intent (Intent.ACTION_VIEW,
-                        Uri.parse ("http://play.google.com/store/apps/details?id=" +getContext ().getPackageName ())));
+                        Uri.parse ("http://play.google.com/store/apps/details?id=" + getContext ().getPackageName ())));
             }
         });
 
@@ -177,15 +179,15 @@ public class ProfileFragment extends Fragment {
     }
     //retrieve save username & current date from sharedpreferences
 
-    private void retrieveinfos(){
-        String username= null;
-        String email= null;
-        String urlImage= null;
+    private void retrieveinfos() {
+        String username = null;
+        String email = null;
+        String urlImage = null;
         try {
-            SharedPreferences sharedPreferences= Objects.requireNonNull (getActivity ()).getPreferences (Context.MODE_PRIVATE);
-            username = sharedPreferences.getString ("Username","");
-            email = sharedPreferences.getString ("email","");
-            urlImage = sharedPreferences.getString ("image","");
+            SharedPreferences sharedPreferences = Objects.requireNonNull (getActivity ()).getPreferences (Context.MODE_PRIVATE);
+            username = sharedPreferences.getString ("Username", "");
+            email = sharedPreferences.getString ("email", "");
+            urlImage = sharedPreferences.getString ("image", "");
         } catch (Exception e) {
             e.printStackTrace ();
         }
@@ -232,7 +234,8 @@ public class ProfileFragment extends Fragment {
                         while (!uriTasks.isSuccessful ()) ;
                         Uri downloadUri = uriTasks.getResult ();
                         if (uriTasks.isSuccessful ()) {
-                            databaseReference.child (user.getUid ()).child ("image").setValue (downloadUri.toString ());
+                            databaseReference.child (user.getUid ()).child ("image").setValue (downloadUri != null ?
+                                    downloadUri.toString () : null);
                             Picasso.with (getActivity ()).load (imgUrl).into (avatar);
 
                             StyleableToast.makeText (context, "Upload successfully", R.style.myToast).show ();
@@ -248,46 +251,57 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    private void showFeedbackDialog(Context context)
-    {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Feedback Form");
-        builder.setMessage("please provide us your valuable feedback");
-        LayoutInflater inflater = LayoutInflater.from(getContext ());
+    private void showFeedbackDialog(Context context) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder (context);
+        builder.setTitle ("Feedback Form");
+        builder.setMessage ("please provide us your valuable feedback");
+        LayoutInflater inflater = LayoutInflater.from (getContext ());
 
-        View reg_layout = inflater.inflate(R.layout.feedback, null);
-        final TextView tvEmail = reg_layout.findViewById(R.id.emailName);
-        tvEmail.setText(user.getEmail());
+        View reg_layout = inflater.inflate (R.layout.feedback, null);
+        final TextView tvEmail = reg_layout.findViewById (R.id.emailName);
+        tvEmail.setText (user.getEmail ());
 
-        final EditText Feedback = reg_layout.findViewById(R.id.Message);
-        builder.setView(reg_layout);
+        final EditText Feedback = reg_layout.findViewById (R.id.Message);
+        builder.setView (reg_layout);
 
-        builder.setPositiveButton("SEND", (dialog, which) -> {
-            if (TextUtils.isEmpty(Feedback.getText().toString())) {
-                StyleableToast.makeText (context,"please input a text",R.style.myToast1).show ();
+        builder.setPositiveButton ("SEND", (dialog, which) -> {
+            if (TextUtils.isEmpty (Feedback.getText ().toString ())) {
+                StyleableToast.makeText (context, "please input a text", R.style.myToast1).show ();
                 return;
             }
 
-            FirebaseDatabase database=FirebaseDatabase.getInstance();
-            DatabaseReference myRef=database.getReference();
+            FirebaseDatabase database = FirebaseDatabase.getInstance ();
+            DatabaseReference myRef = database.getReference ();
 
-            myRef.addValueEventListener(new ValueEventListener() {
+            myRef.addValueEventListener (new ValueEventListener () {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Object value=dataSnapshot.getValue();
+                    Object value = dataSnapshot.getValue ();
 
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(getContext (), "failed to read info", Toast.LENGTH_SHORT).show();
+                    Toast.makeText (getContext (), "failed to read info", Toast.LENGTH_SHORT).show ();
                 }
             });
-            myRef.child("Users").child(user.getUid()).child("Feedback").setValue(Feedback.getText().toString());
-            StyleableToast.makeText (context,"thanks for your valuable feedback",R.style.myToast).show ();
+            myRef.child ("Users").child (user.getUid ()).child ("Feedback").setValue (Feedback.getText ().toString ());
+            StyleableToast.makeText (context, "thanks for your valuable feedback", R.style.myToast).show ();
         });
-        builder.setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss());
-        builder.setCancelable(false);
-        builder.show();
+        builder.setNegativeButton ("CANCEL", (dialog, which) -> dialog.dismiss ());
+        builder.setCancelable (false);
+        builder.show ();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart ();
+        Objects.requireNonNull (((AppCompatActivity) Objects.
+                requireNonNull (getActivity ())).getSupportActionBar ()).setTitle ("My Profile");
+        Objects.requireNonNull (((AppCompatActivity) Objects.
+                requireNonNull (getActivity ())).getSupportActionBar ()).show ();
+    }
+
+
+
 }
