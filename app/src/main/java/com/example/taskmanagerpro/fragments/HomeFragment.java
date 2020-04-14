@@ -119,8 +119,17 @@ public class HomeFragment extends Fragment {
                     for (DataSnapshot d : dataSnapshot.getChildren ()) {
                         try {
                             if (HasActiveNetworkConnection (Objects.requireNonNull (getContext ()))) {
-
-                                String username = "Welcome," + d.child ("username").getValue ();
+                                Calendar c = Calendar.getInstance ();
+                                int timeOfDay = c.get (Calendar.HOUR_OF_DAY);
+                                String timeText;
+                                if (timeOfDay >= 0 && timeOfDay < 12) {
+                                    timeText = "Good Morning,";
+                                } else if (timeOfDay >= 12 && timeOfDay < 16) {
+                                    timeText = "Good Afternoon,";
+                                } else{
+                                    timeText = "Good Evening,";
+                                }
+                                String username = timeText + d.child ("username").getValue ();
                                 String date = DateFormat.getDateInstance (DateFormat.LONG).format (calendar.getTime ());
                                 DisplayName.setText (String.format ("%s", username));
                                 Date.setText (date);
@@ -263,8 +272,8 @@ public class HomeFragment extends Fragment {
 
     }
 
-    //retrieve save username & current date from sharedpreferences
 
+    //retrieve save username & current date from sharedpreferences
     private void retrieveinfos() {
         String username = null;
         String date = null;

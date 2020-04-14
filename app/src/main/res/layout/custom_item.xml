@@ -31,7 +31,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_home_black_24dp"
+                android:src="@drawable/ic_home"
                 android:tint="@color/colorItemDefaultTint" />
 
             <TextView
@@ -44,7 +44,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:paddingEnd="5dp"
-                android:fontFamily="@font/amaranth_bold"
+                android:fontFamily="sans-serif-black"
                 android:text="@string/Home"
                 android:textColor="@color/colorItemDefaultTint"
                 android:textSize="15sp"

@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:background="@android:color/transparent"
-                android:drawableStart="@drawable/ic_person_black_24dp"
+                android:drawableStart="@drawable/ic_person_signup"
                 android:drawablePadding="12dp"
                 android:ems="10"
                 android:fontFamily="@font/amaranth_bold"

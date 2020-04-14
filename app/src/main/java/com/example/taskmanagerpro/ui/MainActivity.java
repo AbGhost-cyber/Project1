@@ -67,14 +67,14 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemS
     @SuppressLint("ResourceType")
     private void initItems() {
         CustomBottomItem Home = new CustomBottomItem (HOME,
-                R.drawable.ic_home_black_24dp, getString (R.string.Home),
+                R.drawable.ic_home, getString (R.string.Home),
                 getString (R.color.colorItem1Background), getString (R.color.Black));
 
-        CustomBottomItem Com_task = new CustomBottomItem (COMTASK, R.drawable.completed_24dp,
+        CustomBottomItem Com_task = new CustomBottomItem (COMTASK, R.drawable.icon_completed,
                 getString (R.string.ComTask), getString (R.color.colorItem2Background),
                 getString (R.color.Black));
 
-        CustomBottomItem profile = new CustomBottomItem (PROFILE, R.drawable.ic_person_black_24dp,
+        CustomBottomItem profile = new CustomBottomItem (PROFILE, R.drawable.icon_profile,
                 getString (R.string.Profile), getString (R.color.colorItem3Background),
                 getString (R.color.Black));
 
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemS
 
                 break;
             case PROFILE:
-                //todo do something, when Profile is selected
+
                 fm.beginTransaction ().hide (active).show (fragment3).commit ();
                 active = fragment3;
                 try {
